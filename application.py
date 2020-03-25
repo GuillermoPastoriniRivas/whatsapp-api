@@ -91,7 +91,7 @@ def send():
         body = request.form.get("mensaje")
         url = 'https://eu108.chat-api.com/instance110344/message?token=1aev7uljuh7eyscw'
         data = ({"phone": phone, "body": body})
-        res = requests.post(url, json=data)
+        res = requests.post(url, json=data, timeout=100)
         if res.status_code != 200:
             raise Exception("ERROR: API request unsuccessful.")
         data = res.json()
