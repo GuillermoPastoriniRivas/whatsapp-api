@@ -7,7 +7,7 @@
 {% block body %}
 
     <h1>Mensajes</h1>
-
+   {{ message }}
     <div class="container">
       <form action="{{ url_for('send') }}" method="post">
         <label for="phone">Numero de Telefono</label>

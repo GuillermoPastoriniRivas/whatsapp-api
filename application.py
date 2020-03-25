@@ -1,13 +1,32 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from models import *
+from config import *
 import requests
+from decouple import config as config_decouple
+def create_app(enviroment):
+    app = Flask(__name__)
 
-app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config.from_object(enviroment)
+
+    with app.app_context():
+        db.init_app(app)
+        db.create_all()
+
+    return app
+
+enviroment = config['development']
+if config_decouple('PRODUCTION', default=False):
+    enviroment = config['production']
+
+app = create_app(enviroment)
+
+
+# app = Flask(__name__)
+# app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
+# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = 'clavesecreta'
-db.init_app(app)
+# db.init_app(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -77,4 +96,6 @@ def send():
             raise Exception("ERROR: API request unsuccessful.")
         data = res.json()
         print(data)
-    return render_template("send.html")
+        return render_template("send.html", message="Enviado con exito")
+    if request.method == 'GET':
+        return render_template("send.html")
