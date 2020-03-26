@@ -18,6 +18,7 @@ mccabe==0.6.1
 passlib==1.7.2
 psycopg2-binary==2.8.4
 pylint==2.4.4
+python-datauri==0.2.8
 python-decouple==3.3
 requests==2.23.0
 six==1.14.0
