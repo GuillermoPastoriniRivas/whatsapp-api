@@ -1,0 +1,12 @@
+Conocimientos excluyentes:
+- Java
+- HTML
+- CSS
+- Javascript
+
+Conocimientos deseables:
+- Spring
+- Hibernate
+- Tomcat
+- Maven/Ant
+- Desarrollo mobile Android/iOS

@@ -5,7 +5,7 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'postgres://qmckbpetcbyeum:f0a97818832c585e960e0c3a7a85e10894d1c3d428687d08e4e1e7bdc02a9d3c@ec2-3-211-48-92.compute-1.amazonaws.com:5432/d45jrau572mh69'
+    SQLALCHEMY_DATABASE_URI = 'postgres://rbjfjrgvcyzhim:8508dc79c4f26ab684ce7ebfd840b4d1a37eef670036f007c7b47ee069c7bee5@ec2-52-207-93-32.compute-1.amazonaws.com:5432/dr7e28ncjras2'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
 
