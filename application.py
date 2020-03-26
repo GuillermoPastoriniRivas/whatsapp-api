@@ -104,6 +104,7 @@ def send():
             url = 'https://eu108.chat-api.com/instance110344/message?token=1aev7uljuh7eyscw'
             data = ({"phone": phone, "body": body})
         res = requests.post(url, json=data, timeout=2000)
+        remove(str(os.path.join(uploads_dir, secure_filename(archivo.filename))))
         if res.status_code != 200:
             raise Exception("ERROR: API request unsuccessful.")
         data = res.json()
