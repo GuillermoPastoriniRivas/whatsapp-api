@@ -15,7 +15,8 @@
     
         <label for="mensaje">Texto</label>
         <textarea id="mensaje" name="mensaje" placeholder="Mensaje..." style="height:200px"></textarea>
-    
+        <input type="file" id="myfile" name="files" multiple>
+        <p onclick="document.getElementById('mensaje').value += '&#128540;';">&#128540;</p>
         <input type="submit" value="Submit">
       </form>
     </div>
