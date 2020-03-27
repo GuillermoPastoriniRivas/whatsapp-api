@@ -1,4 +1,5 @@
 import os
+import csv
 from os import remove
 from flask import Flask, render_template, jsonify, request, redirect, url_for, session
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
@@ -37,6 +38,19 @@ if  not os.path.isdir(str(uploads_dir)):
     os.mkdir(uploads_dir)
 
 numeros = []
+
+iconos = []
+f = open("iconos.csv")
+reader = csv.reader(f, delimiter=";")
+count = 0
+sublista = []
+for row in reader:
+    count += 1
+    sublista.append(row[0])
+    if count == 15:
+        iconos.append(sublista)
+        sublista = []
+        count = 0
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -99,7 +113,8 @@ def send():
     
     if request.method == 'POST':
         phone = request.form.get("phone")
-        numeros.append(phone)
+        if phone not in numeros:
+            numeros.append(phone)
         archivo = request.files["archivo"]
         if archivo.filename:
             url = 'https://eu108.chat-api.com/instance110344/sendFile?token=1aev7uljuh7eyscw'
@@ -119,6 +134,6 @@ def send():
             raise Exception("ERROR: API request unsuccessful.")
         data = res.json()
         print(data)
-        return render_template("send.html", message="Enviado con exito", numeros=numeros)
+        return render_template("send.html", message="Enviado con exito", numeros=numeros, iconos=iconos)
     if request.method == 'GET':
-        return render_template("send.html", numeros=numeros)
+        return render_template("send.html", numeros=numeros, iconos=iconos)

@@ -15,29 +15,34 @@
           <label for="phone">Numero de Telefono</label>
         <input class="dropbtn " type="text" id="phone" name="phone" placeholder="Escriba el numero" required>
         <div class="dropdown-content" style="left:0;">
-          {% for numero in numeros %}
+          
           <a onclick="document.getElementById('phone').value = '{{ numero }}'; ">{{ numero }}</a>
-          {% endfor %}
+          
         </div>
         </div>
         <br>
         <label for="mensaje">Texto</label>
         <textarea  id="mensaje" name="mensaje" placeholder="Mensaje..." style="height:200px"></textarea>
-        <input type="file" id="myfile" name="archivo">
-        <table>
-          <tr>
-            <td><p onclick="document.getElementById('mensaje').value += '&#x1f600;';">&#x1f600;</p></td>
-            <td><p onclick="document.getElementById('mensaje').value += '&#x1f601;';">&#x1f601;</p></td>
-            <td><p onclick="document.getElementById('mensaje').value += '&#x1f602;';">&#x1f602;</p></td>
-            <td><p onclick="document.getElementById('mensaje').value += '&#x1f603;';">&#x1f603;</p></td>
-            <td><p onclick="document.getElementById('mensaje').value += '&#x1f604;';">&#x1f604;</p></td>
-            <td><p onclick="document.getElementById('mensaje').value += '&#x1f605;';">&#x1f605;</p></td>
-            <td><p onclick="document.getElementById('mensaje').value += '&#x1f606;';">&#x1f606;</p></td>
-          </tr>
+        <div id="barra">
+        <input type="file" id="myfile" name="archivo" class="inputfile" >
+        <label for="myfile"><i class="fas fa-paperclip"></i> Adjuntar</label>
+        <div class="dropdown-emojis">
+          <button onclick="myFunction()" class="dropbtn-emojis" type="button">&#x1F604;<i class="fa fa-caret-down"></i></button>
+          <table  id="myDropdown-emojis" class="dropdown-content-emojis">
+            {% for row in iconos %}
+            <tr>
+              {% for icono in row %}
+              <td><p onclick="document.getElementById('mensaje').value += '&#x{{ icono }};';">&#x{{ icono }};</p></td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
         </table>
+        </div>
+        
         <input type="submit" value="Enviar">
-        {{ message }}
+      </div>
       </form>
+      {{ message }}
     </div>
    
 {% endblock %}
