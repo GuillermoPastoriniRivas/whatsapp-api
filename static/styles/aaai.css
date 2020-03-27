@@ -11,7 +11,7 @@ body {
     text-align: center;
 }
 
-form {
+form, ul {
     text-align: left;
 }
 
