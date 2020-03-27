@@ -1,22 +1,22 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Sing up
+Sing up
 {% endblock %}
 
 {% block body %}
+<div class="container">
     <h1>Sing Up </h1>
     <form action="{{ url_for('signup') }}" method="post">
-        <div class="container">
 
-            <label for="username"><b>Username</b></label>
-            <input type="text" placeholder="Enter Username" name="username" required>
-        
-            <label for="password"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="password" required>
-        
-            <button type="submit">Registrarme</button>
+        <label for="username"><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="username" required>
 
-          </div>
-    </form>
+        <label for="password"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="password" required>
+
+        <input type="submit" value="Registrarme">
+
+</div>
+</form>
 {% endblock %}

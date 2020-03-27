@@ -7,8 +7,8 @@
 {% block body %}
 
     
-   <h3>Enviar por Whatsapp</h3>
     <div class="container">
+      <h3>Enviar por Whatsapp</h3>
       <form  id="formulario" action="{{ url_for('send') }}" method="post" enctype="multipart/form-data">
         
         <div class="dropdown">
@@ -35,7 +35,7 @@
             <td><p onclick="document.getElementById('mensaje').value += '&#x1f606;';">&#x1f606;</p></td>
           </tr>
         </table>
-        <input type="submit" value="Submit">
+        <input type="submit" value="Enviar">
         {{ message }}
       </form>
     </div>
