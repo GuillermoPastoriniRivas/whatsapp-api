@@ -34,6 +34,8 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 uploads_dir = os.path.join(app.root_path, 'uploads')
+if  not os.path.isdir(str(uploads_dir)):
+    os.mkdir(uploads_dir)
 
 @login_manager.user_loader
 def load_user(user_id):
