@@ -2,31 +2,26 @@
 <html>
     <head>
         <title>{% block title %}{% endblock %}</title>
-        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/aaai.css') }}">
+        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/a594781fb6.js" crossorigin="anonymous"></script>
     </head>
-    <body>
+    <body >
         <div class="topnav">
             <a href="{{url_for('index')}}">Inicio</a>
             {% if current_user.is_authenticated %}
             <a href="{{url_for('send')}}">Enviar Mensaje</a>
-            <a href="{{url_for('logout')}}">Log Out</a>
+            <a href="{{url_for('logout')}}">Cerrar sesión</a>
             {% else %}
-            <a href="{{url_for('login')}}">Log In</a>
+            <a href="{{url_for('login')}}">Login</a>
             <a href="{{url_for('signup')}}">Registrarse</a>
             {% endif %}
-          </div>
-        <div class="container">
+          </div>   
+        <div id="wrapper" >
             {% block body %}
             {% endblock %}
         </div>
     </body>
-    <script>
-        function formulario() {
-            let formulario = document.getElementById("formulario");
-            let formData = new FormData(formulario);
 
-            console.log(formData)
-        }
-
-    </script>
 </html>

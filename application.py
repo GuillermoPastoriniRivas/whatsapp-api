@@ -1,6 +1,6 @@
 import os
 from os import remove
-from flask import Flask, render_template, jsonify, request, redirect, url_for
+from flask import Flask, render_template, jsonify, request, redirect, url_for, session
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from models import *
 from config import *
@@ -8,7 +8,6 @@ import requests
 from decouple import config as config_decouple
 from datauri import DataURI
 from werkzeug.utils import secure_filename
-
 
 
 def create_app(enviroment):
@@ -37,13 +36,18 @@ uploads_dir = os.path.join(app.root_path, 'uploads')
 if  not os.path.isdir(str(uploads_dir)):
     os.mkdir(uploads_dir)
 
+numeros = []
+
 @login_manager.user_loader
 def load_user(user_id):
     return Usuario.query.get(int(user_id))
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    if current_user.is_authenticated:
+        return render_template("index.html")
+    else:
+        return render_template("login.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -92,8 +96,10 @@ def logout():
 @app.route("/send", methods=["GET", "POST"])
 @login_required
 def send():
+    
     if request.method == 'POST':
         phone = request.form.get("phone")
+        numeros.append(phone)
         archivo = request.files["archivo"]
         if archivo.filename:
             url = 'https://eu108.chat-api.com/instance110344/sendFile?token=1aev7uljuh7eyscw'
@@ -113,6 +119,6 @@ def send():
             raise Exception("ERROR: API request unsuccessful.")
         data = res.json()
         print(data)
-        return render_template("send.html", message="Enviado con exito")
+        return render_template("send.html", message="Enviado con exito", numeros=numeros)
     if request.method == 'GET':
-        return render_template("send.html")
+        return render_template("send.html", numeros=numeros)

@@ -6,18 +6,37 @@
 
 {% block body %}
 
-    <h1>Mensajes</h1>
-   {{ message }}
-    <div class="container">
-      <form id="formulario" action="{{ url_for('send') }}" method="post" enctype="multipart/form-data">
-        <label for="phone">Numero de Telefono</label>
-        <input type="text" id="phone" name="phone" placeholder="Escriba el numero" required>
     
+   <h3>Enviar por Whatsapp</h3>
+    <div class="container">
+      <form  id="formulario" action="{{ url_for('send') }}" method="post" enctype="multipart/form-data">
+        
+        <div class="dropdown">
+          <label for="phone">Numero de Telefono</label>
+        <input class="dropbtn " type="text" id="phone" name="phone" placeholder="Escriba el numero" required>
+        <div class="dropdown-content" style="left:0;">
+          {% for numero in numeros %}
+          <a onclick="document.getElementById('phone').value = '{{ numero }}'; ">{{ numero }}</a>
+          {% endfor %}
+        </div>
+        </div>
+        <br>
         <label for="mensaje">Texto</label>
-        <textarea id="mensaje" name="mensaje" placeholder="Mensaje..." style="height:200px"></textarea>
+        <textarea  id="mensaje" name="mensaje" placeholder="Mensaje..." style="height:200px"></textarea>
         <input type="file" id="myfile" name="archivo">
-        <p onclick="document.getElementById('mensaje').value += '&#128540;';">&#128540;</p>
+        <table>
+          <tr>
+            <td><p onclick="document.getElementById('mensaje').value += '&#x1f600;';">&#x1f600;</p></td>
+            <td><p onclick="document.getElementById('mensaje').value += '&#x1f601;';">&#x1f601;</p></td>
+            <td><p onclick="document.getElementById('mensaje').value += '&#x1f602;';">&#x1f602;</p></td>
+            <td><p onclick="document.getElementById('mensaje').value += '&#x1f603;';">&#x1f603;</p></td>
+            <td><p onclick="document.getElementById('mensaje').value += '&#x1f604;';">&#x1f604;</p></td>
+            <td><p onclick="document.getElementById('mensaje').value += '&#x1f605;';">&#x1f605;</p></td>
+            <td><p onclick="document.getElementById('mensaje').value += '&#x1f606;';">&#x1f606;</p></td>
+          </tr>
+        </table>
         <input type="submit" value="Submit">
+        {{ message }}
       </form>
     </div>
    
