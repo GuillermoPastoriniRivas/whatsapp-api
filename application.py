@@ -33,7 +33,7 @@ app.config["SECRET_KEY"] = 'clavesecreta'
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-uploads_dir = os.path.join(app.instance_path, 'uploads')
+uploads_dir = os.path.join(app.root_path, 'uploads')
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -105,7 +105,8 @@ def send():
             url = 'https://eu108.chat-api.com/instance110344/message?token=1aev7uljuh7eyscw'
             data = ({"phone": phone, "body": body})
         res = requests.post(url, json=data, timeout=2000)
-        remove(str(os.path.join(uploads_dir, secure_filename(archivo.filename))))
+        if archivo:
+            remove(str(os.path.join(uploads_dir, secure_filename(archivo.filename))))
         if res.status_code != 200:
             raise Exception("ERROR: API request unsuccessful.")
         data = res.json()
