@@ -1,48 +1,38 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Enviar Mensaje
+Enviar Mensaje
 {% endblock %}
 
 {% block body %}
 
-    
-    <div class="container">
-      <h3>Enviar por Whatsapp</h3>
-      <form  id="formulario" action="{{ url_for('send') }}" method="post" enctype="multipart/form-data">
-        
-        <div class="dropdown">
-          <label for="phone">Numero de Telefono</label>
-        <input class="dropbtn " type="text" id="phone" name="phone" placeholder="Escriba el numero" required>
-        <div class="dropdown-content" style="left:0;">
-          
-          <a onclick="document.getElementById('phone').value = '{{ numero }}'; ">{{ numero }}</a>
-          
-        </div>
-        </div>
-        <br>
-        <label for="mensaje">Texto</label>
-        <textarea  id="mensaje" name="mensaje" placeholder="Mensaje..." style="height:200px"></textarea>
-        <div id="barra">
-        <input type="file" id="myfile" name="archivo" class="inputfile" >
-        <label for="myfile"><i class="fas fa-paperclip"></i> Adjuntar</label>
-        <div class="dropdown-emojis">
-          <button onclick="myFunction()" class="dropbtn-emojis" type="button">&#x1F604;<i class="fa fa-caret-down"></i></button>
-          <table  id="myDropdown-emojis" class="dropdown-content-emojis">
-            {% for row in iconos %}
-            <tr>
-              {% for icono in row %}
-              <td><p onclick="document.getElementById('mensaje').value += '&#x{{ icono }};';">&#x{{ icono }};</p></td>
-              {% endfor %}
-            </tr>
-            {% endfor %}
-        </table>
-        </div>
-        
-        <input type="submit" value="Enviar">
-      </div>
-      </form>
-      {{ message }}
+
+<div class="container">
+  <form id="formulario" action="{{ url_for('send') }}" method="post" enctype="multipart/form-data">
+    <h2 style="text-align: center;"><i class="fas fa-share-square"></i> Enviar Mensajes</h2>
+    <label for="phone">Numero de Telefono</label>
+    <input type="text" id="phone" name="phone" placeholder="Escriba el numero" required>
+    <br>
+    <label for="mensaje">Texto</label>
+    <textarea id="mensaje" name="mensaje" placeholder="Mensaje..." style="height:200px"></textarea>
+    <div class="dropdown-emojis">
+      
+      <input type="file" id="myfile" name="archivo" class="inputfile">
+      <label for="myfile"><i  class="fas fa-paperclip"></i> Adjuntar</label>
+      <button onclick="myFunction()" class="dropbtn-emojis" type="button">&#x1F604;<i 
+        class="fa fa-caret-down"></i></button>
+      
+      <input type="submit" value="Enviar">
+      
     </div>
-   
+    <div id="myDropdown-emojis" class="dropdown-content-emojis">
+      {% for icono in iconos %}
+          <p onclick="document.getElementById('mensaje').value += '&#x{{ icono }};';">&#x{{ icono }};</p>
+      {% endfor %}
+    </div>
+    
+  </form>
+  {{ message }}
+</div>
+
 {% endblock %}

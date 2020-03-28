@@ -42,15 +42,8 @@ numeros = []
 iconos = []
 f = open("iconos.csv")
 reader = csv.reader(f, delimiter=";")
-count = 0
-sublista = []
 for row in reader:
-    count += 1
-    sublista.append(row[0])
-    if count == 15:
-        iconos.append(sublista)
-        sublista = []
-        count = 0
+    iconos.append(row[0])
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -59,7 +52,7 @@ def load_user(user_id):
 @app.route("/")
 def index():
     if current_user.is_authenticated:
-        return render_template("index.html")
+        return redirect(url_for('send'))
     else:
         return render_template("login.html")
 

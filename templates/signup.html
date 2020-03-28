@@ -6,9 +6,9 @@ Sing up
 
 {% block body %}
 <div class="container">
-    <h1>Crear usuario</h1>
+    
     <form action="{{ url_for('signup') }}" method="post">
-
+        <h1 style="text-align: center;"><i class="fas fa-user-plus"></i> Crear usuario</h1>
         <label for="username"><b>Username</b></label>
         <input type="text" placeholder="Enter Username" name="username" required>
 

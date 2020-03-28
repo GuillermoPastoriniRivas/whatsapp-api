@@ -6,10 +6,10 @@ Login
 
 {% block body %}
 <div class="container">
-    <h1>Login</i></h1>
+    
     
     <form action="{{ url_for('login') }}" method="post">
-
+        <h1 style="text-align: center;"><i class="fas fa-sign-in-alt"></i>  Ingresar</i></h1>
         {{ message }}
         <label for="username"><b>Username</b></label>
         <input type="text" placeholder=" Enter Username" name="username" required>
