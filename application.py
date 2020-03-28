@@ -49,6 +49,8 @@ for row in reader:
 def load_user(user_id):
     return Usuario.query.get(int(user_id))
 
+
+
 @app.route("/")
 def index():
     if current_user.is_authenticated:
@@ -68,9 +70,11 @@ def login():
         psw = request.form.get("password")
 
         # Make sure the user and password are correct.
-        user = Usuario.query.filter_by(username=name, password=psw).first()
+        user = Usuario.query.filter_by(username=name).first()
         if not user:
-            return render_template("login.html", message="Invalid username or password ")
+            return render_template("login.html", message="Invalid username")
+        if not check_password_hash(user.password_hash, psw):
+            return render_template("login.html", message="Invalid password ")
         login_user(user)
         return redirect(url_for('send'))
 
@@ -81,6 +85,7 @@ def signup():
 
     if request.method == 'POST':
             # Get form information.
+        name = request.form.get("name")
         username = request.form.get("username")
         psw = request.form.get("password")
        
@@ -88,7 +93,10 @@ def signup():
         user = Usuario.query.filter_by(username=username).first()
         if user:
             return render_template("error.html", message="Username already exists")
-        nuevo = Usuario(username=username, password=psw)
+        
+        nuevo = Usuario(name=name, username=username)
+        nuevo.password_hash = generate_password_hash(psw)
+        nuevo.admin = False
         db.session.add(nuevo)   
         db.session.commit()
         login_user(nuevo)

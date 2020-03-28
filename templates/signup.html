@@ -9,11 +9,15 @@ Sing up
     
     <form action="{{ url_for('signup') }}" method="post">
         <h1 style="text-align: center;"><i class="fas fa-user-plus"></i> Crear usuario</h1>
-        <label for="username"><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="username" required>
 
-        <label for="password"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="password" required>
+        <label for="name"><b>Nombre</b></label>
+        <input type="text" placeholder="Ingrese su nombre" name="name" required>
+
+        <label for="username"><b>Username</b></label>
+        <input type="text" placeholder="Ingrese su nombre de usuario" name="username" required>
+
+        <label for="password"><b>Contraseña</b></label>
+        <input type="password" placeholder="Ingrese su contraseña" name="password" required>
 
         <input type="submit" value="Guardar">
     </form>
