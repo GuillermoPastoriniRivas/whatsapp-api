@@ -16,3 +16,24 @@ class Usuario(db.Model, UserMixin):
     password_hash = db.Column(db.String(128), nullable=False)
     name = db.Column(db.String(200), nullable=False)
     admin = db.Column(db.Boolean, default=False)
+
+    def is_admin(self):
+        return self.admin
+
+
+class Linea(db.Model):
+
+    __tablename__ = 'linea'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), unique=True, nullable=False)
+    api_url = db.Column(db.String(200),  nullable=False)
+    token = db.Column(db.String(16), nullable=False)
+
+class Asignacion(db.Model):
+
+    __tablename__ = 'asignacion'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("usuario.id"), nullable=False)
+    linea_id = db.Column(db.Integer, db.ForeignKey("linea.id"), nullable=False)

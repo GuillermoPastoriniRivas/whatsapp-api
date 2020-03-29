@@ -9,6 +9,7 @@ import requests
 from decouple import config as config_decouple
 from datauri import DataURI
 from werkzeug.utils import secure_filename
+from werkzeug.datastructures import ImmutableMultiDict
 
 
 def create_app(enviroment):
@@ -54,7 +55,12 @@ def load_user(user_id):
 @app.route("/")
 def index():
     if current_user.is_authenticated:
-        return redirect(url_for('send'))
+        usuarios = Usuario.query.all()
+        lineas = Linea.query.all()
+        if current_user.is_admin():
+            return render_template("admin.html", usuarios=usuarios, lineas=lineas)
+        else:
+            return redirect(url_for('send'))
     else:
         return render_template("login.html")
 
@@ -94,7 +100,7 @@ def signup():
         if user:
             return render_template("error.html", message="Username already exists")
         
-        nuevo = Usuario(name=name, username=username)
+        nuevo = Usuario(name=name.capitalize(), username=username)
         nuevo.password_hash = generate_password_hash(psw)
         nuevo.admin = False
         db.session.add(nuevo)   
@@ -111,7 +117,6 @@ def logout():
 @app.route("/send", methods=["GET", "POST"])
 @login_required
 def send():
-    
     if request.method == 'POST':
         phone = request.form.get("phone")
         if phone not in numeros:
@@ -138,3 +143,46 @@ def send():
         return render_template("send.html", message="Enviado con exito", numeros=numeros, iconos=iconos)
     if request.method == 'GET':
         return render_template("send.html", numeros=numeros, iconos=iconos)
+
+@app.route("/admin", methods=["GET", "POST"])
+@login_required
+def admin():
+    
+    if request.method == 'GET':
+        if current_user.is_admin():
+            usuarios = Usuario.query.all()
+            lineas = Linea.query.all()
+            return render_template("admin.html", usuarios=usuarios, lineas=lineas)
+        else:
+            return redirect(url_for('send'))
+    if request.method == 'POST':
+        formulario = request.get_json()
+        user_id = Usuario.query.filter_by(username=formulario["usuario"]).first()
+        linea_id = Linea.query.filter(Linea.name.in_(formulario['instancias'])).all()
+        for inst in linea_id:
+            check = Asignacion.query.filter_by(user_id=user_id.id).filter_by(linea_id=inst.id).first()
+            if check:
+                continue
+            nueva = Asignacion(user_id=user_id.id, linea_id=inst.id)
+            db.session.add(nueva)   
+        db.session.commit() 
+        return redirect(url_for('index'))
+
+@app.route("/linea", methods=["GET", "POST"])
+@login_required
+def linea():
+    if current_user.is_admin():
+        if request.method == 'GET':
+            return render_template("linea.html")
+
+        if request.method == 'POST':
+                # Get form information.
+            name = request.form.get("name")
+            apiurl = request.form.get("apiurl")
+            token = request.form.get("token")
+            nueva = Linea(name=name, api_url=apiurl, token=token)
+            db.session.add(nueva)   
+            db.session.commit()
+            return render_template("linea.html", message="Agregada con exito")
+    else:
+        return redirect(url_for('send'))

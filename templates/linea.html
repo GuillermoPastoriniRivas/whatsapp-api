@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    
+    
+    <form action="{{ url_for('linea') }}" method="post">
+        {{ message }}
+        <h2 style="text-align: center;"><i class="fas fa-bezier-curve"></i>  Agregar línea</i></h2>
+        <label for="name"><b>Nombre de instancia</b></label>
+        <input type="text" placeholder="Ingrese un nombre para la instancia" name="name" required>
+
+        <label for="apiurl"><b>API-URL</b></label>
+        <input type="text" placeholder="Ingrese la API-URL" name="apiurl" required>
+
+        <label for="token"><b>Token</b></label>
+        <input type="text" placeholder="Ingrese el token" name="token" required>
+
+        <input type="submit" value="Guardar">   
+    </form>
+</div>
+
+{% endblock %}

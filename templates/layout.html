@@ -13,12 +13,17 @@
   <div class="topnav" id="myTopnav">
     <a href="{{url_for('index')}}"><i class="fas fa-home"></i> Inicio</a>
     {% if current_user.is_authenticated %}
+    {% if current_user.is_admin() %}
+    <a href="{{url_for('admin')}}"><i class="fas fa-address-book"></i> Asignar</a>
+    <a href="{{url_for('linea')}}"><i class="fas fa-bezier-curve"></i> Lineas</a>
+    {% endif %}
     <a href="{{url_for('send')}}"><i class="fas fa-share-square"></i> Enviar</a>
     <a href="{{url_for('logout')}}" class="right"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
     {% else %}
     <a href="{{url_for('login')}}" class="right"><i class="fas fa-sign-in-alt"></i> Ingresar</a>
     <a href="{{url_for('signup')}}" class="right"><i class="fas fa-user-plus"></i> Regístrate</a>
     {% endif %}
+
     <a href="javascript:void(0);" class="icon" onclick="myFunction2()">
       <i class="fa fa-bars"></i>
     </a>
@@ -32,7 +37,7 @@
 
   function myFunction() {
     document.getElementById("myDropdown-emojis").classList.toggle("show");
-    window.scrollTo(0,document.body.scrollHeight);
+    window.scrollTo(0, document.body.scrollHeight);
   }
   // Close the dropdown if the user clicks outside of it
   window.onclick = function (event) {
@@ -56,6 +61,96 @@
       x.className = "topnav";
     }
   }
+  function myFunction5(usuario) {
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i]
+      if (td.classList.contains('selected')) {
+        tr[i].classList.remove('selected');
+      }
+    }
+    document.getElementById(usuario).classList.toggle('selected');
+  }
+
+  function myFunction6(linea) {
+    document.getElementById(linea).classList.toggle('selected-lineas');
+  }
+
+  function myFunction3() {
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      td2 = tr[i].getElementsByTagName("td")[1];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        txtValue2 = td2.textContent || td2.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1 || txtValue2.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+
+
+  function myFunction4() {
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput2");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable2");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+  function myFunction7() {
+    var obj, dbParam, xmlhttp, myObj, x, txt = "", array = [];
+    table = document.getElementById("myTable");
+    selected = table.getElementsByClassName("selected");
+
+    table2 = document.getElementById("myTable2");
+    selected_lineas = table2.getElementsByClassName("selected-lineas");
+
+    for (i = 0; i < selected_lineas.length; i++) {
+      linea = selected_lineas[i].getElementsByTagName("td")[0];
+      array.push(linea.textContent);
+
+    }
+    usuario = selected[0].getElementsByTagName("td")[1];
+    obj = { "usuario":usuario.textContent, "instancias": array };
+    dbParam = JSON.stringify(obj);
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", "/admin", true);
+    xmlhttp.setRequestHeader("Content-type", "application/json");
+    xmlhttp.send(dbParam);
+    window.location.reload();
+  }
+
+  
+
+
+
 </script>
 
 </html>

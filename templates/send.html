@@ -9,7 +9,13 @@ Enviar Mensaje
 
 <div class="container">
   <form id="formulario" action="{{ url_for('send') }}" method="post" enctype="multipart/form-data">
+    
     <h2 style="text-align: center;"><i class="fas fa-share-square"></i> Enviar Mensajes</h2>
+    <select class="" name="instancia">
+      {% for linea in lineas %}
+          <option value="{{ linea.id }}">{{ linea.name }}</option>
+      {% endfor %}
+  </select>
     <label for="phone">Numero de Telefono</label>
     <input type="text" id="phone" name="phone" placeholder="Escriba el numero" required>
     <br>
