@@ -117,7 +117,13 @@ def logout():
 @app.route("/send", methods=["GET", "POST"])
 @login_required
 def send():
+    asignaciones = Asignacion.query.filter_by(user_id=current_user.id).all()
+    lineas = []
+    for asig in asignaciones:
+        agreg = Linea.query.get(asig.linea_id)
+        lineas.append(agreg.name)
     if request.method == 'POST':
+        instancia = Linea.query.filter_by(name=request.form.get("instancia")).first()
         phone = request.form.get("phone")
         if phone not in numeros:
             numeros.append(phone)
@@ -139,15 +145,15 @@ def send():
         if res.status_code != 200:
             raise Exception("ERROR: API request unsuccessful.")
         data = res.json()
-        print(data)
-        return render_template("send.html", message="Enviado con exito", numeros=numeros, iconos=iconos)
+        print(instancia.api_url)
+        return render_template("send.html", message="Enviado con exito", numeros=numeros, iconos=iconos, lineas=lineas)
     if request.method == 'GET':
-        return render_template("send.html", numeros=numeros, iconos=iconos)
+       
+        return render_template("send.html", numeros=numeros, iconos=iconos, lineas=lineas)
 
 @app.route("/admin", methods=["GET", "POST"])
 @login_required
 def admin():
-    
     if request.method == 'GET':
         if current_user.is_admin():
             usuarios = Usuario.query.all()

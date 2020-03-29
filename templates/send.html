@@ -13,11 +13,14 @@ Enviar Mensaje
     <h2 style="text-align: center;"><i class="fas fa-share-square"></i> Enviar Mensajes</h2>
     <select class="" name="instancia">
       {% for linea in lineas %}
-          <option value="{{ linea.id }}">{{ linea.name }}</option>
+          <option value="{{ linea }}">{{ linea }}</option>
       {% endfor %}
   </select>
     <label for="phone">Numero de Telefono</label>
     <input type="text" id="phone" name="phone" placeholder="Escriba el numero" required>
+    {% for numero in numeros %}
+      <p value="{{ numero }}">{{ numero }}</option>
+    {% endfor %}
     <br>
     <label for="mensaje">Texto</label>
     <textarea id="mensaje" name="mensaje" placeholder="Mensaje..." style="height:200px"></textarea>
