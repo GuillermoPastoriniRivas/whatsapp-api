@@ -8,56 +8,56 @@ WhatsApp - API
 
 <div class="container-table">
     <h1><i class="fas fa-user-cog"></i> Admin</h1>
+    <h3 style="text-align: center;">Usuarios</h3>
+             
     <form action="{{ url_for('admin') }}" method="post">
-    <div class="row">
-        <div class="column">
-            <h3 style="text-align: center;">Usuarios</h3>
-            <div class="buscador">
-                <input type="text" id="myInput" onkeyup="myFunction3()" placeholder="Buscar usuario"
-                    title="Type in a name">
+        <div class="row">
+            <div class="column">
+                
+                <table id="myTable">
+                    <tr class="header">
+                        <th style="width:70%;">Nombre</th>
+                        <th style="width:30%;">Usuario</th>
+                    </tr>
+
+                    {% for usuario in usuarios %}
+                    <tr id="{{ usuario.username }}" onclick="myFunction5('{{ usuario.username }}')">
+                        <td>{{usuario.name}}</td>
+                        <td>{{usuario.username}}</td>
+                    </tr>
+                    {% endfor %}
+
+                </table>
             </div>
-            <table id="myTable">
-                <tr class="header">
-                    <th style="width:70%;">Nombre</th>
-                    <th style="width:30%;">Usuario</th>
-                </tr>
-                
-                {% for usuario in usuarios %}
-                <tr id="{{ usuario.username }}" onclick="myFunction5('{{ usuario.username }}')">
-                    <td>{{usuario.name}}</td>
-                    <td>{{usuario.username}}</td>
-                </tr>
-                {% endfor %}
-                
-            </table>
-        </div>
-        <div class="column">
-            <h3 style="text-align: center;">Líneas de Chat-API</h3>
-            <div class="buscador">
-                <input type="text" id="myInput2" onkeyup="myFunction4()" placeholder="Buscar línea"
-                    title="Type in a name">
+            <div class="column">
+                <div class="toggleshow">
+                    <h3 style="text-align: center;">Líneas de Chat-API</h3>
+                    <div class="buscador">
+                        <input type="text" id="myInput2" onkeyup="myFunction4()" placeholder="Buscar línea"
+                            title="Type in a name">
+                    </div>
+                    <table id="myTable2">
+                        <tr class="header">
+                            <th style="width:25%;">Nombre</th>
+                            <th style="width:50%;">API URL</th>
+                            <th style="width:25%;">Token</th>
+                        </tr>
+
+                        {% for linea in lineas %}
+
+                        <tr id="{{linea.name}}" onclick="myFunction6('{{ linea.name }}')">
+                            <td>{{linea.name}}</td>
+                            <td>{{linea.api_url}}</td>
+                            <td>{{linea.token}}</td>
+                        </tr>
+
+                        {% endfor %}
+                    </table>
+                </div>
             </div>
-            <table id="myTable2">
-                <tr class="header">
-                    <th style="width:25%;">Nombre</th>
-                    <th style="width:50%;">API URL</th>
-                    <th style="width:25%;">Token</th>
-                </tr>
-                
-                {% for linea in lineas %}
-                
-                <tr id="{{linea.name}}" onclick="myFunction6('{{ linea.name }}')">
-                    <td>{{linea.name}}</td>
-                    <td>{{linea.api_url}}</td>
-                    <td>{{linea.token}}</td>
-                </tr>
-                
-                {% endfor %}
-            </table>
         </div>
-    </div>
-    <button type="button" style="width: 50%; margin-left: 25%;" id="admin" onclick="myFunction7()">Asignar</button>
-</form>
+        <button type="button" style="width: 50%; margin-left: 25%;" id="admin" >Asignar</button>
+    </form>
 </div>
 
 {% endblock %}

@@ -337,3 +337,7 @@ input[type=password], input[type=text], select, textarea {
 .selected-lineas {
   background-color: #afafaf;
 }
+
+.toggleshow{
+  display: none;
+}
