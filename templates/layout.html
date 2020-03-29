@@ -14,7 +14,8 @@
     <a href="{{url_for('index')}}"><i class="fas fa-home"></i> Inicio</a>
     {% if current_user.is_authenticated %}
     {% if current_user.is_admin() %}
-    <a href="{{url_for('admin')}}"><i class="fas fa-address-book"></i> Asignar</a>
+    <a href="{{url_for('admin')}}"><i class="fas fa-user-cog"></i> Admin</a>
+    <a href="{{url_for('asignar')}}"><i class="fas fa-address-book"></i> Asignar</a>
     <a href="{{url_for('linea')}}"><i class="fas fa-bezier-curve"></i> Lineas</a>
     {% endif %}
     <a href="{{url_for('send')}}"><i class="fas fa-share-square"></i> Enviar</a>
@@ -61,22 +62,7 @@
       x.className = "topnav";
     }
   }
-  function myFunction5(usuario) {
-    table = document.getElementById("myTable");
-    tr = table.getElementsByTagName("tr");
-
-    for (i = 0; i < tr.length; i++) {
-      td = tr[i]
-      if (td.classList.contains('selected')) {
-        tr[i].classList.remove('selected');
-      }
-    }
-    document.getElementById(usuario).classList.toggle('selected');
-  }
-
-  function myFunction6(linea) {
-    document.getElementById(linea).classList.toggle('selected-lineas');
-  }
+  
 
   function myFunction3() {
     // Declare variables
@@ -124,6 +110,24 @@
       }
     }
   }
+
+  function myFunction5(usuario) {
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i]
+      if (td.classList.contains('selected')) {
+        tr[i].classList.remove('selected');
+      }
+    }
+    document.getElementById(usuario).classList.toggle('selected');
+  }
+
+  function myFunction6(linea) {
+    document.getElementById(linea).classList.toggle('selected-lineas');
+  }
+
   function myFunction7() {
     var obj, dbParam, xmlhttp, myObj, x, txt = "", array = [];
     table = document.getElementById("myTable");
@@ -141,15 +145,12 @@
     obj = { "usuario":usuario.textContent, "instancias": array };
     dbParam = JSON.stringify(obj);
     xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "/admin", true);
+    xmlhttp.open("POST", "/asignar", true);
     xmlhttp.setRequestHeader("Content-type", "application/json");
     xmlhttp.send(dbParam);
     window.location.reload();
+    document.getElementById("mensajeSend").innerHTML = "Asignado con éxito";
   }
-
-  
-
-
 
 </script>
 

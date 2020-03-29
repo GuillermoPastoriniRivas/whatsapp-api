@@ -174,6 +174,29 @@ def admin():
         db.session.commit() 
         return redirect(url_for('index'))
 
+@app.route("/asignar", methods=["GET", "POST"])
+@login_required
+def asignar():
+    if request.method == 'GET':
+        if current_user.is_admin():
+            usuarios = Usuario.query.all()
+            lineas = Linea.query.all()
+            return render_template("asignaciones.html", usuarios=usuarios, lineas=lineas)
+        else:
+            return redirect(url_for('send'))
+    if request.method == 'POST':
+        formulario = request.get_json()
+        user_id = Usuario.query.filter_by(username=formulario["usuario"]).first()
+        linea_id = Linea.query.filter(Linea.name.in_(formulario['instancias'])).all()
+        for inst in linea_id:
+            check = Asignacion.query.filter_by(user_id=user_id.id).filter_by(linea_id=inst.id).first()
+            if check:
+                continue
+            nueva = Asignacion(user_id=user_id.id, linea_id=inst.id)
+            db.session.add(nueva)   
+        db.session.commit() 
+        return redirect(url_for('index'))
+
 @app.route("/linea", methods=["GET", "POST"])
 @login_required
 def linea():

@@ -90,10 +90,14 @@ form label, .container-table h4 {
   color: rgb(18, 77, 71);
 }
 
-form h2, form h1, .container-table h1, .container-table h4 {
+form h2, form h1, .container-table h1  {
  padding: 15px;
  margin-bottom: 10px;
  color: rgb(22, 99, 91);
+}
+
+.container-table h3, .container-table h4 {
+  color: rgb(22, 99, 91);
 }
 
 
@@ -132,7 +136,7 @@ input[type=password], input[type=text], select, textarea {
   }
   
   /* Style the submit button with a specific background color etc */
-  input[type=submit], #asignar {
+  input[type=submit], #asignar, #admin {
     background-color: rgb(30,135,125);
     color: white;
     padding: 12px 20px;
@@ -318,8 +322,9 @@ input[type=password], input[type=text], select, textarea {
   }
 
   .container, .container-table  {
-    padding: 20px;
+    padding: 10px;
     margin: 2rem 1rem;
+    max-width: 330px;
   }
   
   
