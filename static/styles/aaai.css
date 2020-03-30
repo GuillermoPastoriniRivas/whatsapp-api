@@ -352,6 +352,7 @@ input[type=password], input[type=text], select, textarea {
   border-radius: 4px; 
   background-color: white;
   margin: 0.6rem auto;
+  -webkit-overflow: auto;
   overflow: auto;
   max-width: 580px;
 }
@@ -380,15 +381,19 @@ input[type=password], input[type=text], select, textarea {
 }
 
 .admin-row {
+  -webkit-display: flex;
   display: flex;
+  -webkit-flex-direction: column-reverse;
   flex-direction: column-reverse;
 }
 
 .admin-table button {
   padding: 10px;
+  -webkit-cursor: pointer;
   cursor: pointer;
   border: none;
   background-color: white;
+  -webkit-border-radius: 3px;
   border-radius: 3px;
   width: 100%;
 }
