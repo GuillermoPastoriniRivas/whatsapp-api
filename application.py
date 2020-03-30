@@ -55,10 +55,8 @@ def load_user(user_id):
 @app.route("/")
 def index():
     if current_user.is_authenticated:
-        usuarios = Usuario.query.all()
-        lineas = Linea.query.all()
         if current_user.is_admin():
-            return render_template("admin.html", usuarios=usuarios, lineas=lineas)
+            return redirect(url_for('admin'))
         else:
             return redirect(url_for('send'))
     else:
@@ -82,7 +80,7 @@ def login():
         if not check_password_hash(user.password_hash, psw):
             return render_template("login.html", message="Invalid password ")
         login_user(user)
-        return redirect(url_for('send'))
+        return redirect(url_for('index'))
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
@@ -106,7 +104,7 @@ def signup():
         db.session.add(nuevo)   
         db.session.commit()
         login_user(nuevo)
-        return redirect(url_for('send'))
+        return redirect(url_for('index'))
 
 @app.route("/logout")
 @login_required
@@ -129,7 +127,9 @@ def send():
             numeros.append(phone)
         archivo = request.files["archivo"]
         if archivo.filename:
-            url = 'https://eu108.chat-api.com/instance110344/sendFile?token=1aev7uljuh7eyscw'
+            instancias = str(instancia.api_url)
+            tokens = str(instancia.token)
+            url = f'{instancias}sendFile?token={tokens}'
             archivo.save(os.path.join(uploads_dir, secure_filename(archivo.filename)))
             mensaje = request.form.get("mensaje")
             ruta = os.path.join(uploads_dir, secure_filename(archivo.filename))
@@ -137,7 +137,9 @@ def send():
             data = ({"phone": phone, "body": body, "filename": archivo.filename, "caption": mensaje })
         elif not archivo:
             body = request.form.get("mensaje")
-            url = 'https://eu108.chat-api.com/instance110344/message?token=1aev7uljuh7eyscw'
+            instancias = str(instancia.api_url)
+            tokens = str(instancia.token)
+            url = f'{instancias}message?token={tokens}'
             data = ({"phone": phone, "body": body})
         res = requests.post(url, json=data, timeout=2000)
         if archivo:
@@ -150,29 +152,6 @@ def send():
     if request.method == 'GET':
        
         return render_template("send.html", numeros=numeros, iconos=iconos, lineas=lineas)
-
-@app.route("/admin", methods=["GET", "POST"])
-@login_required
-def admin():
-    if request.method == 'GET':
-        if current_user.is_admin():
-            usuarios = Usuario.query.all()
-            lineas = Linea.query.all()
-            return render_template("admin.html", usuarios=usuarios, lineas=lineas)
-        else:
-            return redirect(url_for('send'))
-    if request.method == 'POST':
-        formulario = request.get_json()
-        user_id = Usuario.query.filter_by(username=formulario["usuario"]).first()
-        linea_id = Linea.query.filter(Linea.name.in_(formulario['instancias'])).all()
-        for inst in linea_id:
-            check = Asignacion.query.filter_by(user_id=user_id.id).filter_by(linea_id=inst.id).first()
-            if check:
-                continue
-            nueva = Asignacion(user_id=user_id.id, linea_id=inst.id)
-            db.session.add(nueva)   
-        db.session.commit() 
-        return redirect(url_for('index'))
 
 @app.route("/asignar", methods=["GET", "POST"])
 @login_required
@@ -215,3 +194,44 @@ def linea():
             return render_template("linea.html", message="Agregada con exito")
     else:
         return redirect(url_for('send'))
+
+@app.route("/admin", methods=["GET", "POST"])
+@login_required
+def admin():
+    if request.method == 'GET':
+        if current_user.is_admin():
+            usuarios = Usuario.query.all()
+            lineas = Linea.query.all()
+            # user = request.args.get('user')
+            # if user:
+            #     miuser = Usuario.query.filter_by(username=user).first()
+            #     asignaciones = Asignacion.query.filter_by(user_id=miuser.id).all()
+            #     if asignaciones:
+            #         lineas=[]
+            #         for asig in asignaciones:
+            #             linea =Linea.query.filter_by(id =asig.linea_id).first() 
+            #             lineas.append(linea)
+            #         return render_template("admin.html", usuarios=usuarios, lineas=lineas)
+            return render_template("admin.html", usuarios=usuarios, lineas=lineas)
+            
+        else:
+            return redirect(url_for('send'))
+    if request.method == 'POST':
+        form = int(request.form.get("formhidden"))
+        username = request.form.get("username")
+        if form == 1:
+            username = request.form.get("username")
+            password = request.form.get("password")
+            myuser = Usuario.query.filter_by(username=username).first()
+            myuser.password_hash = generate_password_hash(password)
+            db.session.commit() 
+        if form == 2:
+            username = request.form.get("username")
+            myuser = Usuario.query.filter_by(username=username).first()
+            asignaciones = Asignacion.query.filter_by(user_id=myuser.id).all()
+            for asig in asignaciones:
+                db.session.delete(asig)
+            db.session.delete(myuser)
+            db.session.commit()
+        return redirect(url_for('admin'))
+

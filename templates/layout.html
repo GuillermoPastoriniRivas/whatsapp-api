@@ -16,7 +16,7 @@
     {% if current_user.is_admin() %}
     <a href="{{url_for('admin')}}"><i class="fas fa-user-cog"></i> Admin</a>
     <a href="{{url_for('asignar')}}"><i class="fas fa-address-book"></i> Asignar</a>
-    <a href="{{url_for('linea')}}"><i class="fas fa-bezier-curve"></i> Lineas</a>
+    <a href="{{url_for('linea')}}"><i class="fas fa-project-diagram"></i> Lineas</a>
     {% endif %}
     <a href="{{url_for('send')}}"><i class="fas fa-share-square"></i> Enviar</a>
     <a href="{{url_for('logout')}}" class="right"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
@@ -151,6 +151,46 @@
     window.location.reload();
     document.getElementById("mensajeSend").innerHTML = "Asignado con éxito";
   }
+
+
+  function myFunction8(usuario) {
+    document.getElementById('formclave').classList.toggle('toggleshow');
+    document.getElementById('hidden').value = usuario;
+  }
+
+  function myFunction9(usuario) {
+    document.getElementById('formdelete').classList.toggle('toggleshow');
+    document.getElementById('hiddendelete').value = usuario;
+  }
+
+  function myFunction10(usuario) {
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET", "/admin?user=" + usuario, true);
+    xmlhttp.send();
+    //document.getElementById('tableinst').classList.toggle('toggleshow');
+    
+  }
+
+  // function openCity(evt, cityName) {
+  // // Declare all variables
+  // var i, tabcontent, tablinks;
+
+  // // Get all elements with class="tabcontent" and hide them
+  // tabcontent = document.getElementsByClassName("tabcontent");
+  // for (i = 0; i < tabcontent.length; i++) {
+  //   tabcontent[i].style.display = "none";
+  // }
+
+  // // Get all elements with class="tablinks" and remove the class "active"
+  // tablinks = document.getElementsByClassName("tablinks");
+  // for (i = 0; i < tablinks.length; i++) {
+  //   tablinks[i].className = tablinks[i].className.replace(" active", "");
+  // }
+
+  // // Show the current tab, and add an "active" class to the button that opened the tab
+  // document.getElementById(cityName).style.display = "block";
+  // evt.currentTarget.className += " active";
+//}
 
 </script>
 

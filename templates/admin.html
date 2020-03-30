@@ -9,55 +9,72 @@ WhatsApp - API
 <div class="container-table">
     <h1><i class="fas fa-user-cog"></i> Admin</h1>
     <h3 style="text-align: center;">Usuarios</h3>
-             
-    <form action="{{ url_for('admin') }}" method="post">
-        <div class="row">
-            <div class="column">
-                
-                <table id="myTable">
-                    <tr class="header">
-                        <th style="width:70%;">Nombre</th>
-                        <th style="width:30%;">Usuario</th>
-                    </tr>
 
-                    {% for usuario in usuarios %}
-                    <tr id="{{ usuario.username }}" onclick="myFunction5('{{ usuario.username }}')">
-                        <td>{{usuario.name}}</td>
-                        <td>{{usuario.username}}</td>
-                    </tr>
-                    {% endfor %}
+        <div class="admin-row">
+            <table class="admin-table">
+                <tr class="header">
+                    <th>Nombre</th>
+                    <th>Usuario</th>
+                    <th>Líneas</th> 
+                    <th>Cambiar Contraseña</th>
+                    <th>Eliminar</th>
+                </tr>
 
-                </table>
-            </div>
-            <div class="column">
-                <div class="toggleshow">
-                    <h3 style="text-align: center;">Líneas de Chat-API</h3>
-                    <div class="buscador">
-                        <input type="text" id="myInput2" onkeyup="myFunction4()" placeholder="Buscar línea"
-                            title="Type in a name">
-                    </div>
-                    <table id="myTable2">
-                        <tr class="header">
-                            <th style="width:25%;">Nombre</th>
-                            <th style="width:50%;">API URL</th>
-                            <th style="width:25%;">Token</th>
-                        </tr>
-
-                        {% for linea in lineas %}
-
-                        <tr id="{{linea.name}}" onclick="myFunction6('{{ linea.name }}')">
-                            <td>{{linea.name}}</td>
-                            <td>{{linea.api_url}}</td>
-                            <td>{{linea.token}}</td>
-                        </tr>
-
-                        {% endfor %}
-                    </table>
+                {% for usuario in usuarios %}
+                <tr>
+                    <td>{{usuario.name}}</td>
+                    <td>{{usuario.username}}</td>
+                    <td><button onclick="myFunction10('{{usuario.username}}'); " type="button"><i class="fas fa-project-diagram"></i></button></td>
+                    <td><button onclick="myFunction8('{{usuario.username}}')" type="button"><i
+                                class="fas fa-edit"></i></button></td>
+                    <td><button onclick="myFunction9('{{usuario.username}}')" type="button"><i class="fas fa-times"></i></button></td>
+                </tr>
+                {% endfor %}
+                <div id="formclave" class="toggleshow" style="overflow: auto;">
+                    <br>
+                    <form action="{{ url_for('admin') }}" method="post">
+                        <input type="hidden" id="hiddenform1" name="formhidden" value="1">
+                        <input type="hidden" id="hidden" name="username" value="">
+                        <label for="password"><b>Contraseña nueva</b></label>
+                        <input type="password" placeholder="Ingrese su contraseña" name="password" required>
+                        <input type="submit" value="Guardar">
+                    </form>
                 </div>
-            </div>
+                <div id="formdelete" class="toggleshow">
+                    <br>
+                    <form action="{{ url_for('admin') }}" method="post">
+                        <input type="hidden" id="hiddenform2" name="formhidden" value="2">
+                        <input type="hidden" id="hiddendelete" name="username" value="">
+                        <p><b>¿Seguro que elimina a este usuario?</b></p>
+                        <input type="submit" value="Confirmar">
+                    </form>
+                </div>
+            </table>
         </div>
-        <button type="button" style="width: 50%; margin-left: 25%;" id="admin" >Asignar</button>
-    </form>
+        
+        <div id="tableinst" class="toggleshow">
+            <h3 style="text-align: center;"> Líneas de Chat-API</h3>
+            <table class="admin-table">
+                <tr class="header">
+                    <th >Nombre</th>
+                    <th >API URL</th>
+                    <th >Token</th>
+                </tr>
+                
+                {% for linea in lineas %}
+
+                <tr >
+                    <td>{{linea.name}}</td>
+                    <td>{{linea.api_url}}</td>
+                    <td>{{linea.token}}</td>
+                </tr>
+                
+                {% endfor %}
+            </table>
+        </div>
+
+        
+
 </div>
 
 {% endblock %}

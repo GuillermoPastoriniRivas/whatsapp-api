@@ -341,3 +341,60 @@ input[type=password], input[type=text], select, textarea {
 .toggleshow{
   display: none;
 }
+
+
+.admin-table {
+  border-collapse: collapse;
+  display: block;
+  width: 100%;
+  border: 1px solid #ddd; /* Gray border */
+  -webkit-border-radius: 4px;
+  border-radius: 4px; 
+  background-color: white;
+  margin: 0.6rem auto;
+  overflow: auto;
+  max-width: 580px;
+}
+
+.admin-table th, .admin-table td  {
+  text-align: left;
+  padding: 12px;
+  cursor: pointer;
+  color: rgb(18, 77, 71);
+}
+
+.admin-table tr {
+  border-bottom: 1px solid #ccc;
+}
+
+.admin-table tr:hover {
+  background-color: #afafaf;
+}
+
+.admin-table tr.header th {
+  color: white;
+}
+
+.admin-table tr.header {
+  background-color: rgb(30,135,125);
+}
+
+.admin-row {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.admin-table button {
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  background-color: white;
+  border-radius: 3px;
+  width: 100%;
+}
+
+.admin-table button:hover {
+  background-color:  rgb(30,135,125);
+  color: white;
+
+}
