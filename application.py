@@ -106,7 +106,8 @@ def send():
     enviados = Enviado.query.filter_by(user=current_user.username).all()
     if enviados:
         for mensaje in enviados:
-            numeros.append(mensaje.numero)
+            if mensaje.numero not in numeros
+                numeros.append(mensaje.numero)
     lineas = []
     for asig in asignaciones:
         agreg = Linea.query.get(asig.linea_id)
