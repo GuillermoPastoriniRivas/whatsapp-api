@@ -4,9 +4,11 @@
 <head>
   <title>{% block title %}{% endblock %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/aaai.css') }}">
   <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/a594781fb6.js" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
@@ -244,6 +246,7 @@
     document.getElementById('hiddenuserasig').value = usuario;
     document.getElementById('hiddenlineaasig').value = linea;
   }
+
 </script>
 
 </html>

@@ -47,5 +47,6 @@ class Enviado(db.Model):
     user = db.Column(db.String(200), nullable=False)
     linea = db.Column(db.String(200), nullable=False)
     numero = db.Column(db.BigInteger, nullable=False)
+    prefijo = db.Column(db.Integer, nullable=False)
     mensaje = db.Column(db.String(200), nullable=True)
     archivo = db.Column(db.String(200),  nullable=True)

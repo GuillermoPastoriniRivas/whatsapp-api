@@ -8,12 +8,13 @@ Enviados
 <div class="container-table">
     <div id="tableenviados" >
         <h1 style="text-align: center;"><i
-            class="fas fa-envelope"></i> Enviados</h1>
+            class="fas fa-envelope"></i> Enviados ({{ cantidad }})</h1>
         
         <table class="admin-table" style="max-width: 700px;">
             <tr class="header">
                 <th>Usuario</th>
                 <th>Línea</th>
+                <th>Prefijo</th>
                 <th>Numero</th>
                 <th>Mensaje</th>
                 <th>Archivo</th>
@@ -24,6 +25,7 @@ Enviados
             <tr >
                 <td>{{usuario.username}}</td>
                 <td>{{mensaje.linea}}</td>
+                <td>+{{mensaje.prefijo}}</td>
                 <td>{{mensaje.numero}}</td>
                 <td>{{mensaje.mensaje}}</td>
                 <td>{{mensaje.archivo}}</td>

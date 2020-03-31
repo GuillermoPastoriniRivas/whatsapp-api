@@ -112,8 +112,21 @@ def send():
         agreg = Linea.query.get(asig.linea_id)
         lineas.append(agreg)
     if request.method == 'POST':
+        
         instancia = random.choice(lineas)
-        phone = request.form.get("phone")
+        numero = str(request.form.get("phone"))
+        prefijo = str(request.form.get("selectorflags"))
+        cliente = request.form.get("cliente")
+        phone = prefijo + numero
+        if cliente:
+            body = cliente
+            instancias = str(instancia.api_url)
+            tokens = str(instancia.token)
+            url = f'{instancias}message?token={tokens}'
+            data = ({"phone": phone, "body": body})
+            res = requests.post(url, json=data, timeout=2000)
+            if res.status_code != 200:
+                raise Exception("ERROR: API request unsuccessful.")
         archivo = request.files["archivo"]
         if archivo.filename:
             instancias = str(instancia.api_url)
@@ -124,7 +137,7 @@ def send():
             ruta = os.path.join(uploads_dir, secure_filename(archivo.filename))
             body = DataURI.from_file(str(ruta))
             data = ({"phone": phone, "body": body, "filename": archivo.filename, "caption": mensaje })
-            nuevo = Enviado(user=current_user.username, linea=instancia.name, numero=phone, mensaje=mensaje, archivo=archivo.filename)
+            nuevo = Enviado(user=current_user.username, linea=instancia.name, numero=numero, prefijo=prefijo, mensaje=mensaje, archivo=archivo.filename)
             db.session.add(nuevo) 
             db.session.commit() 
         elif not archivo:
@@ -133,7 +146,7 @@ def send():
             tokens = str(instancia.token)
             url = f'{instancias}message?token={tokens}'
             data = ({"phone": phone, "body": body})
-            nuevo = Enviado(user=current_user.username, linea=instancia.name, numero=phone, mensaje=body)
+            nuevo = Enviado(user=current_user.username, linea=instancia.name, numero=numero, prefijo=prefijo, mensaje=body)
             db.session.add(nuevo) 
             db.session.commit() 
         res = requests.post(url, json=data, timeout=2000)
@@ -270,7 +283,8 @@ def envios(user_id):
         if myuser is None:
             return render_template("error.html", message="No user.")
         enviados = Enviado.query.filter_by(user=myuser.username).all()
-        return render_template("enviados.html", enviados=enviados, usuario=myuser)
+        cantidad = len(enviados)
+        return render_template("enviados.html", enviados=enviados, usuario=myuser, cantidad=cantidad)
 
 @app.route("/lineas/<int:user_id>", methods=["GET", "POST"])
 @login_required
