@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Enviados
+{% endblock %}
+
+{% block body %}
+<div class="container-table">
+    <div id="tableenviados" >
+        <h1 style="text-align: center;"><i
+            class="fas fa-envelope"></i> Enviados</h1>
+        
+        <table class="admin-table" style="max-width: 700px;">
+            <tr class="header">
+                <th>Usuario</th>
+                <th>Línea</th>
+                <th>Numero</th>
+                <th>Mensaje</th>
+                <th>Archivo</th>
+            </tr>
+            
+            {% for mensaje in enviados %}
+
+            <tr >
+                <td>{{usuario.username}}</td>
+                <td>{{mensaje.linea}}</td>
+                <td>{{mensaje.numero}}</td>
+                <td>{{mensaje.mensaje}}</td>
+                <td>{{mensaje.archivo}}</td>
+            </tr>
+            
+            {% endfor %}
+        </table>
+    </div>
+    
+</div>
+
+{% endblock %}

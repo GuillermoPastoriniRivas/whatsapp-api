@@ -14,15 +14,15 @@
     <a href="{{url_for('index')}}"><i class="fas fa-home"></i> Inicio</a>
     {% if current_user.is_authenticated %}
     {% if current_user.is_admin() %}
-    <a href="{{url_for('admin')}}"><i class="fas fa-user-cog"></i> Admin</a>
-    <a href="{{url_for('asignar')}}"><i class="fas fa-address-book"></i> Asignar</a>
+    <a href="{{url_for('admin')}}"><i class="fas fa-user"></i> Usuarios</a>
     <a href="{{url_for('linea')}}"><i class="fas fa-project-diagram"></i> Lineas</a>
+    <a href="{{url_for('asignar')}}"><i class="fas fa-address-book"></i> Asignar</a>
     {% endif %}
     <a href="{{url_for('send')}}"><i class="fas fa-share-square"></i> Enviar</a>
     <a href="{{url_for('logout')}}" class="right"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
     {% else %}
     <a href="{{url_for('login')}}" class="right"><i class="fas fa-sign-in-alt"></i> Ingresar</a>
-    <a href="{{url_for('signup')}}" class="right"><i class="fas fa-user-plus"></i> Regístrate</a>
+
     {% endif %}
 
     <a href="javascript:void(0);" class="icon" onclick="myFunction2()">
@@ -52,6 +52,10 @@
         }
       }
     }
+
+    if (!event.target.matches('.numbers') ) {
+      document.getElementById("listaNumeros").classList.add("toggleshow");
+        }
   }
 
   function myFunction2() {
@@ -62,7 +66,7 @@
       x.className = "topnav";
     }
   }
-  
+
 
   function myFunction3() {
     // Declare variables
@@ -142,7 +146,7 @@
 
     }
     usuario = selected[0].getElementsByTagName("td")[1];
-    obj = { "usuario":usuario.textContent, "instancias": array };
+    obj = { "usuario": usuario.textContent, "instancias": array };
     dbParam = JSON.stringify(obj);
     xmlhttp = new XMLHttpRequest();
     xmlhttp.open("POST", "/asignar", true);
@@ -153,45 +157,93 @@
   }
 
 
-  function myFunction8(usuario) {
-    document.getElementById('formclave').classList.toggle('toggleshow');
-    document.getElementById('hidden').value = usuario;
+  function myFunction8(username, name, empresa) {
+    document.getElementById('formuserupdate').classList.toggle('toggleshow');
+    window.scrollTo(0, document.body.scrollHeight);
+    document.getElementById('olduser').value = username;
+    document.getElementById('unameupd').value = name;
+    document.getElementById('uempresaupd').value = empresa;
+    document.getElementById('uusernameupd').value = username;
   }
 
   function myFunction9(usuario) {
-    document.getElementById('formdelete').classList.toggle('toggleshow');
-    document.getElementById('hiddendelete').value = usuario;
+    document.getElementById('formuserdelete').classList.toggle('toggleshow');
+    document.getElementById('hiddenuserdelete').value = usuario;
   }
 
-  function myFunction10(usuario) {
-    xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("GET", "/admin?user=" + usuario, true);
-    xmlhttp.send();
-    //document.getElementById('tableinst').classList.toggle('toggleshow');
-    
+  function myFunction10() {
+    document.getElementById('formlinea').classList.toggle('toggleshow');
+    window.scrollTo(0, document.body.scrollHeight);
   }
 
-  // function openCity(evt, cityName) {
-  // // Declare all variables
-  // var i, tabcontent, tablinks;
+  function myFunction11(linea) {
+    document.getElementById('formelimlinea').classList.toggle('toggleshow');
+    document.getElementById('hiddenlinea').value = linea;
+  }
 
-  // // Get all elements with class="tabcontent" and hide them
-  // tabcontent = document.getElementsByClassName("tabcontent");
-  // for (i = 0; i < tabcontent.length; i++) {
-  //   tabcontent[i].style.display = "none";
-  // }
+  function myFunction12(name, apiurl, token) {
+    document.getElementById('formupdatelinea').classList.toggle('toggleshow');
+    window.scrollTo(0, document.body.scrollHeight);
+    document.getElementById('updname').value = name;
+    document.getElementById('updapi').value = apiurl;
+    document.getElementById('updtoken').value = token;
+    document.getElementById('oldline').value = name;
+  }
 
-  // // Get all elements with class="tablinks" and remove the class "active"
-  // tablinks = document.getElementsByClassName("tablinks");
-  // for (i = 0; i < tablinks.length; i++) {
-  //   tablinks[i].className = tablinks[i].className.replace(" active", "");
-  // }
+  function myFunction13() {
+    var fullPath = document.getElementById('myfile').value;
+    if (fullPath) {
+      var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+      var filename = fullPath.substring(startIndex);
+      if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+        filename = filename.substring(1);
+      }
+      document.getElementById('nombrearchivo').innerText = filename;
+    }
+  }
 
-  // // Show the current tab, and add an "active" class to the button that opened the tab
-  // document.getElementById(cityName).style.display = "block";
-  // evt.currentTarget.className += " active";
-//}
 
+  function myFunction14() {
+    document.getElementById("listaNumeros").classList.toggle("toggleshow");
+  }
+
+  function myFunction15(numero) {
+    document.getElementById("phone").value= numero;
+    document.getElementById("listaNumeros").classList.toggle("toggleshow");
+  }
+
+  
+  function myFunction16() {
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("phone");
+    table = document.getElementById("listaNumeros");
+    filter = input.value;
+    p = table.getElementsByTagName("p");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < p.length; i++) {
+      q = p[i]
+      if (q) {
+        txtValue = q.textContent || q.innerText;
+        if (txtValue.indexOf(filter) > -1 ) {
+          q.style.display = "";
+        } else {
+          q.style.display = "none";
+        }
+      }
+    }
+  }
+  function myFunction17() {
+    document.getElementById('formuser').classList.toggle('toggleshow');
+    window.scrollTo(0, document.body.scrollHeight);
+  }
+
+  function myFunction18(usuario, linea) {
+    document.getElementById('formasigdel').classList.toggle('toggleshow');
+    document.getElementById('hiddenuserasig').value = usuario;
+    document.getElementById('hiddenlineaasig').value = linea;
+  }
 </script>
 
 </html>

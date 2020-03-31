@@ -5,12 +5,39 @@ Login
 {% endblock %}
 
 {% block body %}
-<div class="container">
+<div class="container-table">
+    <div id="tableinst" >
+        <h1 style="text-align: center;"><i class="fas fa-project-diagram"></i>  Líneas de Chat-API</h1>
+        
+        <table class="admin-table" style="max-width: 700px;">
+            <tr class="header">
+                <th >Nombre</th>
+                <th >API URL</th>
+                <th >Token</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+            
+            {% for linea in lineas %}
+
+            <tr >
+                <td>{{linea.name}}</td>
+                <td>{{linea.api_url}}</td>
+                <td>{{linea.token}}</td>
+                <td><button onclick="myFunction12('{{linea.name}}', '{{linea.api_url}}', '{{linea.token}}')" type="button"><i
+                    class="fas fa-edit"></i></button></td>
+                <td><button onclick="myFunction11('{{linea.name}}')" type="button"><i class="fas fa-times"></i></button></td>
+            </tr>
+            
+            {% endfor %}
+        </table>
+        <button onclick="myFunction10()" type="button" style="width: 50%; margin-left: 25%;" class="asignar">Agregar linea</button>
+    </div>
     
     
-    <form action="{{ url_for('linea') }}" method="post">
-        {{ message }}
-        <h2 style="text-align: center;"><i class="fas fa-project-diagram"></i>  Agregar línea</i></h2>
+    <form id="formlinea" action="{{ url_for('linea') }}"  class="toggleshow" method="post" style="max-width: 420px;margin: 0 auto;">
+        <br>
+        <input type="hidden" id="hiddenelim" name="formhidden" value="1">
         <label for="name"><b>Nombre de instancia</b></label>
         <input type="text" placeholder="Ingrese un nombre para la instancia" name="name" required>
 
@@ -21,6 +48,32 @@ Login
         <input type="text" placeholder="Ingrese el token" name="token" required>
 
         <input type="submit" value="Guardar">   
+    </form>
+
+    <div id="formelimlinea" class="toggleshow">
+        <br>
+        <form action="{{ url_for('linea') }}" method="post">
+            <input type="hidden" id="hiddenelim" name="formhidden" value="2">
+            <input type="hidden" id="hiddenlinea" name="linea" value="">
+            <p><b>¿Seguro que elimina esta línea?</b></p>
+            <input type="submit" value="Confirmar">
+        </form>
+    </div>
+
+    <form id="formupdatelinea" action="{{ url_for('linea') }}"  class="toggleshow" method="post" style="max-width: 420px;margin: 0 auto;">
+        <br>
+        <input type="hidden" id="hiddenelim" name="formhidden" value="3">
+        <input type="hidden" id="oldline" name="oldline" value="">
+        <label for="name"><b>Nombre de instancia</b></label>
+        <input type="text" placeholder="Ingrese un nombre para la instancia" id="updname" name="name" required>
+
+        <label for="apiurl"><b>API-URL</b></label>
+        <input type="text" placeholder="Ingrese la API-URL" id="updapi" name="apiurl" required>
+
+        <label for="token"><b>Token</b></label>
+        <input type="text" placeholder="Ingrese el token" id="updtoken" name="token" required>
+
+        <input type="submit" value="Actualizar">   
     </form>
 </div>
 

@@ -15,6 +15,7 @@ class Usuario(db.Model, UserMixin):
     username = db.Column(db.String(16), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
     name = db.Column(db.String(200), nullable=False)
+    empresa = db.Column(db.String(200), nullable=True)
     admin = db.Column(db.Boolean, default=False)
 
     def is_admin(self):
@@ -37,3 +38,14 @@ class Asignacion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("usuario.id"), nullable=False)
     linea_id = db.Column(db.Integer, db.ForeignKey("linea.id"), nullable=False)
+
+class Enviado(db.Model):
+
+    __tablename__ = 'enviado'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user = db.Column(db.String(200), nullable=False)
+    linea = db.Column(db.String(200), nullable=False)
+    numero = db.Column(db.BigInteger, nullable=False)
+    mensaje = db.Column(db.String(200), nullable=True)
+    archivo = db.Column(db.String(200),  nullable=True)

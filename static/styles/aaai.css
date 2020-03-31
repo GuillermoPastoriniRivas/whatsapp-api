@@ -136,7 +136,7 @@ input[type=password], input[type=text], select, textarea {
   }
   
   /* Style the submit button with a specific background color etc */
-  input[type=submit], #asignar, #admin {
+  input[type=submit], .asignar, #admin {
     background-color: rgb(30,135,125);
     color: white;
     padding: 12px 20px;
@@ -396,10 +396,37 @@ input[type=password], input[type=text], select, textarea {
   -webkit-border-radius: 3px;
   border-radius: 3px;
   width: 100%;
+  color: rgb(18, 77, 71);
 }
 
 .admin-table button:hover {
   background-color:  rgb(30,135,125);
   color: white;
 
+}
+
+#nombrearchivo {
+  font-size: smaller;
+  color: #999999;
+}
+
+
+#listaNumeros {
+  background-color: white;
+  padding: 1rem;
+  margin-top: -1rem;
+  max-height: 100px;
+  overflow: auto;
+  cursor: pointer;
+  border: none;
+  -webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+#listaNumeros p {
+  padding: 2px;
+}
+
+#listaNumeros p:hover {
+  background-color: #ddd;
 }

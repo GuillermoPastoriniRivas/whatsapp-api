@@ -8,10 +8,9 @@ Login
 <div class="container">
     
     
-    <form action="{{ url_for('login') }}" method="post">
+    <form action="{{ url_for('login') }}" method="post" >
         {{ message }}
         <h1 style="text-align: center;"><i class="fas fa-sign-in-alt"></i>  Ingresar</i></h1>
-        
         <label for="username"><b>Username</b></label>
         <input type="text" placeholder="Ingrese su nombre de usuario" name="username" required>
 

@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Lineas
+{% endblock %}
+
+{% block body %}
+<div class="container-table">
+    <div id="tablelineas" >
+        <h1 style="text-align: center;"><i class="fas fa-project-diagram"></i> Lineas</h1>
+        
+        <table class="admin-table" style="max-width: 700px;">
+            <tr class="header">
+                <th >Nombre</th>
+                <th >API URL</th>
+                <th >Token</th>
+                <th>Eliminar</th>
+            </tr>
+            
+            {% for linea in lineas %}
+
+            <tr >
+                <td>{{linea.name}}</td>
+                <td>{{linea.api_url}}</td>
+                <td>{{linea.token}}</td>
+
+                <td><button onclick="myFunction18('{{usuario.id}}', '{{linea.id}}')" type="button"><i class="fas fa-times"></i></button></td>
+            </tr>
+            
+            {% endfor %}
+        </table>
+    </div>
+    <div id="formasigdel" class="toggleshow">
+        <br>
+        <form action="{{ url_for('lineas', user_id=usuario.id) }}" method="post">
+            <input type="hidden" id="hiddenuserasig" name="user" value="">
+            <input type="hidden" id="hiddenlineaasig" name="linea" value="">
+            <p><b>¿Seguro que elimina esta asignacion?</b></p>
+            <input type="submit" value="Confirmar">
+        </form>
+    </div>
+    
+</div>
+
+{% endblock %}

@@ -1,80 +1,103 @@
 {% extends "layout.html" %}
 
 {% block title %}
-WhatsApp - API
+Login
 {% endblock %}
 
 {% block body %}
-
 <div class="container-table">
-    <h1><i class="fas fa-user-cog"></i> Admin</h1>
-    <h3 style="text-align: center;">Usuarios</h3>
+    <div id="tableuser">
+        <h1 style="text-align: center;"><i class="fas fa-user"></i> Usuarios</h1>
 
-        <div class="admin-row">
-            <table class="admin-table">
-                <tr class="header">
-                    <th>Nombre</th>
-                    <th>Usuario</th>
-                    <th>Líneas</th> 
-                    <th>Cambiar Contraseña</th>
-                    <th>Eliminar</th>
-                </tr>
+        <table class="admin-table" style="max-width: 700px;" style="text-align: center;">
+            <tr class="header">
+                <th>Nombre</th>
+                <th>Usuario</th>
+                <th>Empresa</th>
+                <th>Enviados</th>
+                <th>Líneas</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
 
-                {% for usuario in usuarios %}
-                <tr>
-                    <td>{{usuario.name}}</td>
-                    <td>{{usuario.username}}</td>
-                    <td><button onclick="myFunction10('{{usuario.username}}'); " type="button"><i class="fas fa-project-diagram"></i></button></td>
-                    <td><button onclick="myFunction8('{{usuario.username}}')" type="button"><i
-                                class="fas fa-edit"></i></button></td>
-                    <td><button onclick="myFunction9('{{usuario.username}}')" type="button"><i class="fas fa-times"></i></button></td>
-                </tr>
-                {% endfor %}
-                <div id="formclave" class="toggleshow" style="overflow: auto;">
-                    <br>
-                    <form action="{{ url_for('admin') }}" method="post">
-                        <input type="hidden" id="hiddenform1" name="formhidden" value="1">
-                        <input type="hidden" id="hidden" name="username" value="">
-                        <label for="password"><b>Contraseña nueva</b></label>
-                        <input type="password" placeholder="Ingrese su contraseña" name="password" required>
-                        <input type="submit" value="Guardar">
-                    </form>
-                </div>
-                <div id="formdelete" class="toggleshow">
-                    <br>
-                    <form action="{{ url_for('admin') }}" method="post">
-                        <input type="hidden" id="hiddenform2" name="formhidden" value="2">
-                        <input type="hidden" id="hiddendelete" name="username" value="">
-                        <p><b>¿Seguro que elimina a este usuario?</b></p>
-                        <input type="submit" value="Confirmar">
-                    </form>
-                </div>
-            </table>
-        </div>
-        
-        <div id="tableinst" class="toggleshow">
-            <h3 style="text-align: center;"> Líneas de Chat-API</h3>
-            <table class="admin-table">
-                <tr class="header">
-                    <th >Nombre</th>
-                    <th >API URL</th>
-                    <th >Token</th>
-                </tr>
-                
-                {% for linea in lineas %}
+            {% for usuario in usuarios %}
+            <tr>
+                <td>{{usuario.name}}</td>
+                <td>{{usuario.username}}</td>
+                <td>
+                    {% if usuario.empresa %}
+                    {{usuario.empresa}}
+                    {% else %}
+                    <p> </p>
+                    {% endif %}
 
-                <tr >
-                    <td>{{linea.name}}</td>
-                    <td>{{linea.api_url}}</td>
-                    <td>{{linea.token}}</td>
-                </tr>
-                
-                {% endfor %}
-            </table>
-        </div>
+                </td>
+                <td><a href="{{ url_for('envios', user_id=usuario.id) }}"><button type="button"><i class="fas fa-envelope"></i></button></a></td>
+                <td><a href="{{ url_for('lineas', user_id=usuario.id) }}"><button type="button"><i class="fas fa-project-diagram"></i></button></a></td>
+                <td><button onclick="myFunction8('{{usuario.username}}', '{{usuario.name}}', '{{usuario.empresa}}')"
+                        type="button"><i class="fas fa-edit"></i></button></td>
+                <td><button onclick="myFunction9('{{usuario.username}}')" type="button"><i
+                            class="fas fa-times"></i></button></td>
+            </tr>
+            {% endfor %}
 
-        
+        </table>
+        <button onclick="myFunction17()" type="button" style="width: 50%; margin-left: 25%;" class="asignar">Agregar
+            Usuario</button>
+    </div>
 
+
+    <form id="formuser" action="{{ url_for('admin') }}" method="post" class="toggleshow"
+        style="max-width: 420px;margin: 0 auto;">
+        <input type="hidden" id="hiddenelim" name="formhidden" value="1">
+        <h2 style="text-align: center;"><i class="fas fa-user-plus"></i> Crear usuario</h2>
+
+        <label for="name"><b>Nombre</b></label>
+        <input type="text" placeholder="Ingrese el nombre" name="name" required>
+
+        <label for="empresa"><b>Empresa</b></label>
+        <input type="text" placeholder="Ingrese la empresa" name="empresa">
+
+        <label for="username"><b>Username</b></label>
+        <input type="text" placeholder="Ingrese su nombre de usuario" name="username" required>
+
+        <label for="password"><b>Contraseña</b></label>
+        <input type="password" placeholder="Ingrese su contraseña" name="password" required>
+
+        <input type="submit" value="Guardar">
+    </form>
+
+
+    <form id="formuserupdate" action="{{ url_for('admin') }}" method="post" class="toggleshow"
+        style="max-width: 420px;margin: 0 auto;">
+        <input type="hidden" id="hiddenupdate" name="formhidden" value="2">
+        <input type="hidden" id="olduser" name="olduser" value="">
+        <h2 style="text-align: center;"><i class="fas fa-user-plus"></i> Actualizar usuario</h2>
+
+        <label for="name"><b>Nombre</b></label>
+        <input id="unameupd" type="text" placeholder="Ingrese el nombre" name="name" required>
+
+        <label for="empresa"><b>Empresa</b></label>
+        <input id="uempresaupd" type="text" placeholder="Ingrese la empresa" name="empresa">
+
+        <label for="username"><b>Username</b></label>
+        <input id="uusernameupd" type="text" placeholder="Ingrese el nombre de usuario" name="username" required>
+
+        <label for="password"><b>Contraseña</b></label>
+        <input type="password" placeholder="Dejar vacio para no cambiar contraseña" name="password">
+
+        <input type="submit" value="Actualizar">
+    </form>
+
+    <div id="formuserdelete" class="toggleshow">
+        <br>
+        <form action="{{ url_for('admin') }}" method="post">
+            <input type="hidden" id="hiddenuserform2" name="formhidden" value="3">
+            <input type="hidden" id="hiddenuserdelete" name="username" value="">
+            <p><b>¿Seguro que elimina a este usuario?</b></p>
+            <input type="submit" value="Confirmar">
+        </form>
+    </div>
 </div>
 
 {% endblock %}

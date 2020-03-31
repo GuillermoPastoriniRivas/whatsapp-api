@@ -11,28 +11,31 @@ Enviar Mensaje
   <form id="formulario" action="{{ url_for('send') }}" method="post" enctype="multipart/form-data">
     
     <h2 style="text-align: center;"><i class="fas fa-share-square"></i> Enviar Mensajes</h2>
-    <select class="" name="instancia">
-      {% for linea in lineas %}
-          <option value="{{ linea }}">{{ linea }}</option>
-      {% endfor %}
-  </select>
+    
     <label for="phone">Numero de Telefono</label>
-    <input type="text" id="phone" name="phone" placeholder="Escriba el numero" required>
-    {% for numero in numeros %}
-      <p value="{{ numero }}">{{ numero }}</option>
-    {% endfor %}
+    <input type="text" id="phone" name="phone" placeholder="Ingrese el numero" autocomplete="nope"  class="numbers" onkeyup="myFunction16()" onclick="myFunction14()" required>
+    <div id="listaNumeros" class="toggleshow">
+      {% for numero in numeros %}
+        <p class="numbers" value="{{ numero }}" onclick="myFunction15('{{ numero }}')">{{ numero }}</p>
+      {% endfor %}
+    </div>
+    
     <br>
+    <label for="cliente">Nombre del Cliente</label>
+    <input type="text" id="cliente" name="cliente" placeholder="Ingrese el nombre del cliente" required>
+
     <label for="mensaje">Texto</label>
     <textarea id="mensaje" name="mensaje" placeholder="Mensaje..." style="height:200px"></textarea>
     <div class="dropdown-emojis">
       
-      <input type="file" id="myfile" name="archivo" class="inputfile">
-      <label for="myfile"><i  class="fas fa-paperclip"></i> Adjuntar</label>
+      <input type="file" id="myfile" name="archivo" class="inputfile" oninput="myFunction13()">
+      <label for="myfile"><i  class="fas fa-paperclip"  ></i> Adjuntar <span id="nombrearchivo"></span> </label>
+
+      
       <button onclick="myFunction()" class="dropbtn-emojis" type="button">&#x1F604;<i 
         class="fa fa-caret-down"></i></button>
       
       <input type="submit" value="Enviar">
-      
     </div>
     <div id="myDropdown-emojis" class="dropdown-content-emojis">
       {% for icono in iconos %}
