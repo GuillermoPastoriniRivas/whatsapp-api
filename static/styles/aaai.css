@@ -434,6 +434,7 @@ input[type=password], input[type=text], select, textarea {
 
 
 #banderas {
+  -webkit-display: inline-flex;
   display: inline-flex;
   width: 100%;
 }
