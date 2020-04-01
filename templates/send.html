@@ -31,11 +31,13 @@ Enviar Mensaje
       </select>
       <div >
         <input type="text" id="phone" name="phone" placeholder="Ingrese el número" autocomplete="nope"  class="numbers" onkeyup="myFunction16()" onclick="myFunction14()" required>
+        {% if numeros  %}
         <div id="listaNumeros" class="toggleshow">
           {% for numero in numeros %}
             <p class="numbers" value="{{ numero }}" onclick="myFunction15('{{ numero }}')">{{ numero }}</p>
           {% endfor %}
         </div>
+        {% endif %}
       </div>
        </div>
     
