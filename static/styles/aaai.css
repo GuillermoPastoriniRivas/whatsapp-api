@@ -281,7 +281,7 @@ input[type=password], input[type=text], select, textarea {
   border-radius: 4px; 
   background-color: white;
   margin: 0.6rem auto;
-  overflow: hidden;
+  overflow: auto;
 }
 
 #myTable th, #myTable td, #myTable2 th, #myTable2 td {
@@ -355,6 +355,8 @@ input[type=password], input[type=text], select, textarea {
   -webkit-overflow: auto;
   overflow: auto;
   max-width: 580px;
+  max-height: 400px;
+
 }
 
 .admin-table th, .admin-table td  {

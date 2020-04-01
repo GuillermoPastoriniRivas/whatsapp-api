@@ -5,7 +5,9 @@ Enviar Mensaje
 {% endblock %}
 
 {% block body %}
-
+<script>document.addEventListener("DOMContentLoaded", () => {
+  myFunction20('{{ paisuser }}');
+});</script>
 
 <div class="container">
   {{ message }}
@@ -14,6 +16,7 @@ Enviar Mensaje
     <h2 style="text-align: center;"><i class="fas fa-share-square"></i> Enviar Mensajes</h2>
     
     <label for="phone">Numero de Telefono </label>
+    
     <div id="banderas">
       <select id="selectorflags" name="selectorflags" >
           <option value="549">&#x1F1E6;&#x1F1F7; (+549)</option>
@@ -27,7 +30,6 @@ Enviar Mensaje
           <option value="595">&#x1F1F5;&#x1F1FE; (+595)</option>
           <option value="598">&#x1F1FA;&#x1F1FE; (+598)</option>
           <option value="58">&#x1F1FB;&#x1F1EA; (+58)</option>
-          
       </select>
       <div >
         <input type="text" id="phone" name="phone" placeholder="Ingrese el número" autocomplete="nope"  class="numbers" onkeyup="myFunction16()" onclick="myFunction14()" required>

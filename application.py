@@ -46,6 +46,20 @@ reader = csv.reader(f, delimiter=";")
 for row in reader:
     iconos.append(row[0])
 
+paises = {
+    "Argentina":"549",
+    "Brasil":"55",
+    "Bolivia":"591", 
+    "Chile":"56",
+    "Colombia":"57", 
+    "Ecuador":"593", 
+    "Mexico":"52",
+    "Perú":"51",
+    "Paraguay":"595",
+    "Uruguay":"598",
+    "Venezuela":"58"
+}
+
 @login_manager.user_loader
 def load_user(user_id):
     return Usuario.query.get(int(user_id))
@@ -108,6 +122,7 @@ def logout():
 @app.route("/send", methods=["GET", "POST"])
 @login_required
 def send():
+    paisuser = paises[current_user.pais]
     numeros = []
     asignaciones = Asignacion.query.filter_by(user_id=current_user.id).all()
     enviados = Enviado.query.filter_by(user=current_user.username).all()
@@ -120,7 +135,6 @@ def send():
         agreg = Linea.query.get(asig.linea_id)
         lineas.append(agreg)
     if request.method == 'POST':
-        
         instancia = random.choice(lineas)
         numero = str(request.form.get("phone"))
         prefijo = str(request.form.get("selectorflags"))
@@ -175,10 +189,11 @@ def send():
         if res.status_code != 200:
             raise Exception("ERROR: API request unsuccessful.")
         data = res.json()
-        return render_template("send.html", message="Enviado con exito", numeros=numeros, iconos=iconos)
+        
+        return render_template("send.html", message="Enviado con exito", numeros=numeros, iconos=iconos, paisuser=paisuser)
     if request.method == 'GET':
        
-        return render_template("send.html", numeros=numeros, iconos=iconos)
+        return render_template("send.html", numeros=numeros, iconos=iconos, paisuser=paisuser)
 
 @app.route("/asignar", methods=["GET", "POST"])
 @login_required
@@ -258,13 +273,14 @@ def admin():
                 username = request.form.get("username")
                 psw = request.form.get("password")
                 empresa = request.form.get("empresa")
-            
+                pais = str(request.form.get("selectorflags"))
+
                 # Make sure the user exists.
                 user = Usuario.query.filter_by(username=username).first()
                 if user:
                     return render_template("error.html", message="Username already exists")
                 
-                nuevo = Usuario(name=name.capitalize(), username=username, empresa=empresa)
+                nuevo = Usuario(name=name.capitalize(), username=username, empresa=empresa, pais=pais)
                 nuevo.password_hash = generate_password_hash(psw)
                 nuevo.admin = False
                 db.session.add(nuevo)   
@@ -275,10 +291,12 @@ def admin():
                 username = request.form.get("username")
                 psw = request.form.get("password")
                 empresa = request.form.get("empresa")
+                pais = str(request.form.get("selectorflags"))
                 myuser = Usuario.query.filter_by(username=olduser).first()
                 myuser.username = username
                 myuser.name = name
                 myuser.empresa = empresa
+                myuser.pais = pais
                 if psw:
                     myuser.password_hash = generate_password_hash(psw)
                 db.session.commit()

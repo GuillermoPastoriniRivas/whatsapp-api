@@ -16,6 +16,7 @@ class Usuario(db.Model, UserMixin):
     password_hash = db.Column(db.String(128), nullable=False)
     name = db.Column(db.String(200), nullable=False)
     empresa = db.Column(db.String(200), nullable=True)
+    pais = db.Column(db.String(200), nullable=True)
     admin = db.Column(db.Boolean, default=False)
 
     def is_admin(self):

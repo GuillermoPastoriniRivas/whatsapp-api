@@ -7,11 +7,12 @@
   <meta charset="utf-8">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/aaai.css') }}">
   <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
   <script src="https://kit.fontawesome.com/a594781fb6.js" crossorigin="anonymous"></script>
 
 </head>
 
-<body>
+<body >
   <div class="topnav" id="myTopnav">
     <a href="{{url_for('index')}}"><i class="fas fa-home"></i> Inicio</a>
     {% if current_user.is_authenticated %}
@@ -159,13 +160,20 @@
   }
 
 
-  function myFunction8(username, name, empresa) {
+  function myFunction8(username, name, empresa, pais) {
     document.getElementById('formuserupdate').classList.toggle('toggleshow');
     window.scrollTo(0, document.body.scrollHeight);
     document.getElementById('olduser').value = username;
     document.getElementById('unameupd').value = name;
     document.getElementById('uempresaupd').value = empresa;
     document.getElementById('uusernameupd').value = username;
+    sel = document.getElementById("selectoradminupd");
+    opt = sel.getElementsByTagName("option");
+    for (i = 0; i < opt.length; i++) {
+      if (opt[i].value == pais) {
+        opt[i].setAttribute("selected", "selected");
+      }
+  }
   }
 
   function myFunction9(usuario) {
@@ -247,6 +255,41 @@
     document.getElementById('hiddenlineaasig').value = linea;
   }
 
+  function myFunction19() {
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("usersearch");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("tableuser");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      td2 = tr[i].getElementsByTagName("td")[1];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        txtValue2 = td2.textContent || td2.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1 || txtValue2.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+
+  function myFunction20(value) {
+    sel = document.getElementById("selectorflags");
+    opt = sel.getElementsByTagName("option");
+    for (i = 0; i < opt.length; i++) {
+      if (opt[i].value == value) {
+        opt[i].setAttribute("selected", "selected");
+      }
+  }
+  }
+  
+  
 </script>
 
 </html>
