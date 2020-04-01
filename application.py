@@ -50,7 +50,14 @@ for row in reader:
 def load_user(user_id):
     return Usuario.query.get(int(user_id))
 
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('404.html'), 404
 
+@app.errorhandler(500)
+def page_not_found(e):
+    return render_template('500.html'), 500
 
 @app.route("/")
 def index():
@@ -128,17 +135,29 @@ def send():
             res = requests.post(url, json=data, timeout=2000)
             if res.status_code != 200:
                 raise Exception("ERROR: API request unsuccessful.")
+            nuevo = Enviado(user=current_user.username, linea=instancia.name, numero=numero, prefijo=prefijo, mensaje=body)
+            db.session.add(nuevo) 
+            db.session.commit() 
         archivo = request.files["archivo"]
         if archivo.filename:
             instancias = str(instancia.api_url)
             tokens = str(instancia.token)
+            mensaje = request.form.get("mensaje")
+            if mensaje:
+                url = f'{instancias}message?token={tokens}'
+                data = ({"phone": phone, "body": mensaje})
+                res = requests.post(url, json=data, timeout=2000)
+                if res.status_code != 200:
+                    raise Exception("ERROR: API request unsuccessful.")
+                nuevo = Enviado(user=current_user.username, linea=instancia.name, numero=numero, prefijo=prefijo, mensaje=mensaje)
+                db.session.add(nuevo) 
+                db.session.commit() 
             url = f'{instancias}sendFile?token={tokens}'
             archivo.save(os.path.join(uploads_dir, secure_filename(archivo.filename)))
-            mensaje = request.form.get("mensaje")
             ruta = os.path.join(uploads_dir, secure_filename(archivo.filename))
             body = DataURI.from_file(str(ruta))
-            data = ({"phone": phone, "body": body, "filename": archivo.filename, "caption": mensaje })
-            nuevo = Enviado(user=current_user.username, linea=instancia.name, numero=numero, prefijo=prefijo, mensaje=mensaje, archivo=archivo.filename)
+            data = ({"phone": phone, "body": body, "filename": archivo.filename })
+            nuevo = Enviado(user=current_user.username, linea=instancia.name, numero=numero, prefijo=prefijo, archivo=archivo.filename)
             db.session.add(nuevo) 
             db.session.commit() 
         elif not archivo:
