@@ -48,7 +48,17 @@ Enviar Mensaje
     <label for="cliente">Nombre del Cliente</label>
     <input type="text" id="cliente" name="cliente" placeholder="Este texto se envía como primer mensaje" required>
 
-    <label for="mensaje">Texto</label>
+    <div id="flexlabel">
+      <label for="mensaje">Texto</label> 
+      <div class="editable">
+        <input type="checkbox" name="check" id="checkcursivo" checked> 
+        <label for="check" id="labelcursivo" > Texto de confirmación </label>
+        <button type="button" id="buttoncursivo"><i class="fas fa-edit"></i></button>
+      </div>
+      
+    </div>
+
+
     <textarea id="mensaje" name="mensaje" placeholder="Mensaje..." ></textarea>
     <div class="dropdown-emojis">
       

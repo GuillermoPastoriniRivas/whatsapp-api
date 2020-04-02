@@ -124,6 +124,7 @@ def logout():
 def send():
     paisuser = paises[current_user.pais]
     numeros = []
+    text = ''
     asignaciones = Asignacion.query.filter_by(user_id=current_user.id).all()
     enviados = Enviado.query.filter_by(user=current_user.username).all()
     if enviados:
@@ -135,6 +136,12 @@ def send():
         agreg = Linea.query.get(asig.linea_id)
         lineas.append(agreg)
     if request.method == 'POST':
+        textocursivo = request.form.getlist("check")
+        print(textocursivo)
+        if textocursivo:
+            f = open(os.path.join(app.root_path, 'mensaje.txt'))
+            text = f.read()
+            f.close()
         instancia = random.choice(lineas)
         numero = str(request.form.get("phone"))
         prefijo = str(request.form.get("selectorflags"))
@@ -175,7 +182,8 @@ def send():
             db.session.add(nuevo) 
             db.session.commit() 
         elif not archivo:
-            body = request.form.get("mensaje")
+            mens = request.form.get("mensaje")
+            body = f'{mens}  /n  {text}'
             instancias = str(instancia.api_url)
             tokens = str(instancia.token)
             url = f'{instancias}message?token={tokens}'

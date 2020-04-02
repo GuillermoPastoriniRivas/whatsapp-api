@@ -409,7 +409,7 @@ input[type=password], input[type=text], select, textarea {
 
 .admin-table .item {
   margin: 0 auto;
-  
+
 }
 
 #nombrearchivo {
@@ -494,6 +494,36 @@ margin: 0 auto;
 
 /* mouse over link */
 .link:hover {
-  color: rgb(15, 71, 66);
+  background-color: rgb(15, 71, 66);
   color: #eee;
+}
+
+#flexlabel {
+  display: inline-block;
+  width: 100%;
+}
+
+#checkcursivo {
+  margin-right: 2px;
+  margin-top: 3px;
+}
+
+#labelcursivo, #buttoncursivo {
+  font-size: x-small;
+  margin-top: 3px;
+}
+
+.editable  {
+  float: right;
+  display: inline-flex;
+  align-items: center;
+}
+
+#buttoncursivo {
+  border: none;
+  margin-left: 5px;
+}
+
+#buttoncursivo:hover {
+  cursor: pointer;
 }
