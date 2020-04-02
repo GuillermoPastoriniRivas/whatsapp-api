@@ -5,62 +5,43 @@ WhatsApp - API
 {% endblock %}
 
 {% block body %}
-
-<div class="container-table">
-    <h1><i class="fas fa-address-book"></i> Asignar</h1>
-    <h4>Seleccione un usuario y las líneas que quiere asignarle</h4>
+<div class="container-table" >
+    <h1 style="text-align: center;"><i class="fas fa-address-book"></i> Asignar</h1>
     <p id="mensajeSend"></p>
-    <br>
-    <form action="{{ url_for('asignar') }}" method="post">
-    <div class="row">
-        <div class="column">
-            <h3 style="text-align: center;"><i class="fas fa-user"></i> Usuarios</h3>
-            <div class="buscador">
-                <input type="text" id="myInput" onkeyup="myFunction3()" placeholder="Buscar usuario"
-                    title="Type in a name">
-            </div>
-            <table class="admin-table" id="myTable">
-                <tr class="header">
-                    <th style="width:70%;">Nombre</th>
-                    <th style="width:30%;">Usuario</th>
-                </tr>
-                
-                {% for usuario in usuarios %}
-                <tr id="{{ usuario.username }}" onclick="myFunction5('{{ usuario.username }}')">
-                    <td>{{usuario.name}}</td>
-                    <td>{{usuario.username}}</td>
-                </tr>
-                {% endfor %}
-                
-            </table>
+    <div >
+        
+        <div class="buscador">
+            <input type="text" id="buscasig" onkeyup="myFunction21()" placeholder="Buscar usuario" title="Type in a name">
         </div>
-        <div class="column">
-            <h3 style="text-align: center;"><i class="fas fa-project-diagram"></i> Líneas de Chat-API</h3>
-            <div class="buscador">
-                <input type="text" id="myInput2" onkeyup="myFunction4()" placeholder="Buscar línea"
-                    title="Type in a name">
-            </div>
-            <table id="myTable2">
-                <tr class="header">
-                    <th style="width:25%;">Nombre</th>
-                    <th style="width:50%;">API URL</th>
-                    <th style="width:25%;">Token</th>
-                </tr>
-                
-                {% for linea in lineas %}
-                
-                <tr id="{{linea.name}}" onclick="myFunction6('{{ linea.name }}')">
-                    <td>{{linea.name}}</td>
-                    <td>{{linea.api_url}}</td>
-                    <td>{{linea.token}}</td>
-                </tr>
-                
-                {% endfor %}
-            </table>
-        </div>
-    </div>
-    <button type="button" style="width: 50%; margin-left: 25%;" class="asignar" onclick="myFunction7()">Asignar</button>
-</form>
-</div>
+        <table class="admin-table" id="tablaasignar" style="max-width: 700px;" style="text-align: center;">
 
+            <tr class="header">
+                <th></th>
+                {% for linea in lineas %}
+                <th>{{linea.name}}</th>
+                {% endfor %}
+            </tr>
+            {% for item in asignaciones %}
+            <tr>
+                <th>{{item[1]}}</th>
+                {% for element in item[2:] %}
+                <td><button onclick="myFunction7('{{ item[0] }}', '{{ element[0] }}', '{{ element[1] }}')" type="button">&#x{{element[0]}};</button></td>
+                 {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div id="formchange" class="toggleshow">
+        <br>
+        <form action="{{ url_for('asignar') }}" method="post">
+            <input type="hidden" id="hiddenchange" name="formhidden" value="1">
+            <input type="hidden" id="userchange" name="username" value="">
+            <input type="hidden" id="elementchange" name="element" value="">
+            <input type="hidden" id="lineachange" name="linea" value="">
+            <p style="text-align: center;"><b>¿Estas seguro del cambio?</b></p>
+            <input type="submit" value="Confirmar">
+        </form>
+    </div>
+
+</div>
 {% endblock %}

@@ -355,7 +355,7 @@ input[type=password], input[type=text], select, textarea {
   -webkit-overflow: auto;
   overflow: auto;
   max-width: 580px;
-  max-height: 400px;
+  max-height: 300px;
 
 }
 
@@ -405,6 +405,11 @@ input[type=password], input[type=text], select, textarea {
   background-color:  rgb(30,135,125);
   color: white;
 
+}
+
+.admin-table .item {
+  margin: 0 auto;
+  
 }
 
 #nombrearchivo {

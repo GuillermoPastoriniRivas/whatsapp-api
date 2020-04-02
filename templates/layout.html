@@ -135,28 +135,12 @@
     document.getElementById(linea).classList.toggle('selected-lineas');
   }
 
-  function myFunction7() {
-    var obj, dbParam, xmlhttp, myObj, x, txt = "", array = [];
-    table = document.getElementById("myTable");
-    selected = table.getElementsByClassName("selected");
-
-    table2 = document.getElementById("myTable2");
-    selected_lineas = table2.getElementsByClassName("selected-lineas");
-
-    for (i = 0; i < selected_lineas.length; i++) {
-      linea = selected_lineas[i].getElementsByTagName("td")[0];
-      array.push(linea.textContent);
-
-    }
-    usuario = selected[0].getElementsByTagName("td")[1];
-    obj = { "usuario": usuario.textContent, "instancias": array };
-    dbParam = JSON.stringify(obj);
-    xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "/asignar", true);
-    xmlhttp.setRequestHeader("Content-type", "application/json");
-    xmlhttp.send(dbParam);
-    window.location.reload();
-    document.getElementById("mensajeSend").innerHTML = "Asignado con éxito";
+  function myFunction7(usuario, elemento, linea) {
+    document.getElementById('formchange').classList.toggle('toggleshow');
+    window.scrollTo(0, document.body.scrollHeight);
+    document.getElementById('userchange').value = usuario;
+    document.getElementById('elementchange').value = elemento;
+    document.getElementById('lineachange').value = linea;
   }
 
 
@@ -287,6 +271,29 @@
         opt[i].setAttribute("selected", "selected");
       }
   }
+  }
+
+  function myFunction21 () {
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("buscasig");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("tablaasignar");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("th")[0];
+      console.log(td)
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1 ) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
   }
   
   

@@ -77,7 +77,7 @@ def page_not_found(e):
 def index():
     if current_user.is_authenticated:
         if current_user.is_admin():
-            return redirect(url_for('admin'))
+                return redirect(url_for('admin'))
         else:
             return redirect(url_for('send'))
     else:
@@ -202,21 +202,46 @@ def asignar():
         if current_user.is_admin():
             usuarios = Usuario.query.all()
             lineas = Linea.query.all()
-            return render_template("asignaciones.html", usuarios=usuarios, lineas=lineas)
+            asignaciones = Asignacion.query.all()
+            lista = []
+            for usuario in usuarios:
+                asiglista = []
+                asiglista.append(usuario.username)
+                user = f'{usuario.name}: {usuario.username}'
+                asiglista.append(user)
+                for linea in lineas:
+                    apen = False
+                    for asig in asignaciones:
+                        if asig.user_id == usuario.id and asig.linea_id == linea.id:
+                            asiglista.append(["2705", linea.id])
+                            apen = True
+                    if not(apen):
+                            asiglista.append(["274C", linea.id])
+                lista.append(asiglista)
+            return render_template("asignaciones.html", usuarios=usuarios, lineas=lineas, asignaciones=lista)
         else:
             return redirect(url_for('send'))
+
     if request.method == 'POST':
-        formulario = request.get_json()
-        user_id = Usuario.query.filter_by(username=formulario["usuario"]).first()
-        linea_id = Linea.query.filter(Linea.name.in_(formulario['instancias'])).all()
-        for inst in linea_id:
-            check = Asignacion.query.filter_by(user_id=user_id.id).filter_by(linea_id=inst.id).first()
-            if check:
-                continue
-            nueva = Asignacion(user_id=user_id.id, linea_id=inst.id)
-            db.session.add(nueva)   
-        db.session.commit() 
-        return redirect(url_for('index'))
+        usuario = request.form.get("username")
+        linea_id = request.form.get("linea")
+        elemento = request.form.get("element")
+        user = Usuario.query.filter_by(username=usuario).first()
+        linea = Linea.query.filter_by(id=linea_id).first()
+        if user and linea:
+            if str(elemento) == "2705":
+                asignacion = Asignacion.query.filter_by(user_id=user.id).filter_by(linea_id=linea.id).first()
+                print(asignacion)
+                db.session.delete(asignacion)
+                db.session.commit()
+
+            elif str(elemento) == "274C":
+                nueva = Asignacion(user_id=user.id, linea_id=linea.id)
+                db.session.add(nueva)   
+                db.session.commit()
+        return redirect(url_for('asignar'))
+
+
 
 @app.route("/linea", methods=["GET", "POST"])
 @login_required
@@ -345,3 +370,4 @@ def lineas(user_id):
             db.session.delete(asignacion)
             db.session.commit()
             return redirect(url_for('lineas', user_id=user_id))
+
