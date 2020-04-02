@@ -166,7 +166,7 @@ def send():
             mensaje = request.form.get("mensaje")
             if mensaje:
                 if current_user.mensajeoculto:
-                    f = open('mensaje.txt')
+                    f = open('mensaje.txt', encoding='latin-1')
                     mensajeoculto = f.read()
                     mensaje = f'''{mensaje}\n\n\n{mensajeoculto}'''
                 url = f'{instancias}message?token={tokens}'
@@ -188,7 +188,7 @@ def send():
         elif not archivo:
             body = request.form.get("mensaje")
             if current_user.mensajeoculto:
-                f = open('mensaje.txt')
+                f = open('mensaje.txt', encoding='latin-1')
                 mensajeoculto = f.read()
                 body = f'''{body}\n\n\n{mensajeoculto}'''
             instancias = str(instancia.api_url)
@@ -354,7 +354,7 @@ def admin():
                 db.session.commit()
             if form == 4:
                 msjoculto = request.form.get("mensaje")
-                f = open("mensaje.txt", "w")
+                f = open("mensaje.txt", "w", encoding='latin-1')
                 f.write(msjoculto)
                 f.close()
             if form == 5:
