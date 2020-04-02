@@ -305,9 +305,9 @@ def admin():
         usuarios = Usuario.query.all()
         
         if request.method == 'GET':
-            f = open('mensaje.txt')
-            mensajeoculto = f.read()
-            f.close()
+            # f = open('mensaje.txt')
+            # mensajeoculto = f.read()
+            # f.close()
             return render_template("admin.html", usuarios=usuarios, mensajeoculto=mensajeoculto)
         
         if request.method == 'POST':
