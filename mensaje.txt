@@ -1,3 +1,1 @@
-Hello! Welcome to demofile.txt
-This file is for testing purposes.
-Good Luck!
+_Necesitamos responda *Ok* si recibió el mensaje o responda *Baja* si no es el destinatario del mensaje_
