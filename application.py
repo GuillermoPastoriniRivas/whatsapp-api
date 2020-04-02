@@ -305,10 +305,10 @@ def admin():
         usuarios = Usuario.query.all()
         
         if request.method == 'GET':
-            # f = open('mensaje.txt')
-            # mensajeoculto = f.read()
-            # f.close()
-            return render_template("admin.html", usuarios=usuarios)
+            f = open('mensaje.txt', "rt")
+            mensajeoculto = f.read()
+            f.close()
+            return render_template("admin.html", usuarios=usuarios, mensajeoculto=mensajeoculto)
         
         if request.method == 'POST':
             form = int(request.form.get("formhidden"))

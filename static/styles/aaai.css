@@ -508,6 +508,7 @@ margin: 0 auto;
 }
 
 .editable  {
+  -webkit-display: inline-flex;
   display: inline-flex;
   align-items: center;
 }
