@@ -17,6 +17,7 @@ class Usuario(db.Model, UserMixin):
     name = db.Column(db.String(200), nullable=False)
     empresa = db.Column(db.String(200), nullable=True)
     pais = db.Column(db.String(200), nullable=True)
+    mensajeoculto = db.Column(db.Boolean, default=True)
     admin = db.Column(db.Boolean, default=False)
 
     def is_admin(self):
@@ -49,5 +50,5 @@ class Enviado(db.Model):
     linea = db.Column(db.String(200), nullable=False)
     numero = db.Column(db.BigInteger, nullable=False)
     prefijo = db.Column(db.Integer, nullable=False)
-    mensaje = db.Column(db.String(1000), nullable=True)
+    mensaje = db.Column(db.String(1500), nullable=True)
     archivo = db.Column(db.String(200),  nullable=True)

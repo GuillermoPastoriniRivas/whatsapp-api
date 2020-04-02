@@ -4,7 +4,8 @@
 <head>
   <title>{% block title %}{% endblock %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta charset="utf-8">
+  <meta charset="ISO-8859-1">
+  
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/aaai.css') }}">
   <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
@@ -296,7 +297,22 @@
     }
   }
   
+  function myFunction22() {
+    document.getElementById('formupdmensaje').classList.toggle('toggleshow');
+    window.scrollTo(0, document.body.scrollHeight);
+  }
   
+  function myFunction23(usuario) {
+    document.getElementById('formupdestadomensaje').classList.toggle('toggleshow');
+    document.getElementById('hiddenuseredit').value = usuario;
+    window.scrollTo(0, document.body.scrollHeight);
+  }
+
+  function myFunction24() {
+    document.getElementById('contador').textContent = document.getElementById('mensaje').value.length;
+
+  }
+
 </script>
 
 </html>

@@ -1,1 +1,1 @@
-_Necesitamos responda *Ok* si recibiÃ³ el mensaje o responda *Baja* si no es el destinatario del mensaje_
+_Necesitamos responda *Ok* si recibió el mensaje o responda *Baja* si no es el destinatario del mensaje_

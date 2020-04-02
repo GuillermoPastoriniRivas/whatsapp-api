@@ -48,18 +48,11 @@ Enviar Mensaje
     <label for="cliente">Nombre del Cliente</label>
     <input type="text" id="cliente" name="cliente" placeholder="Este texto se envía como primer mensaje" required>
 
-    <!-- <div id="flexlabel">
-      
-      <div class="editable">
-        <input type="checkbox" name="check" id="checkcursivo" checked> 
-        <label for="check" id="labelcursivo" > Texto de confirmación </label>
-        <button type="button" id="buttoncursivo"><i class="fas fa-edit"></i></button>
-      </div>
-      
-    </div> -->
-
-    <label for="mensaje">Texto</label> 
-    <textarea id="mensaje" name="mensaje" placeholder="Mensaje..." ></textarea>
+       <div class="">
+        <label for="mensaje">Texto</label>
+        <p id="contadortext"> <span id="contador">0</span>  / 1000</p>
+       </div>
+    <textarea onkeyup="myFunction24()" onkeydown="myFunction24()" id="mensaje" name="mensaje" placeholder="Mensaje..." ></textarea>
     <div class="dropdown-emojis">
       
       <input type="file" id="myfile" name="archivo" class="inputfile" oninput="myFunction13()">

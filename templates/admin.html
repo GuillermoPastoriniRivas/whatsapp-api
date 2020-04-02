@@ -18,6 +18,9 @@ Login
                 <th>Usuario</th>
                 <th>Empresa</th>
                 <th>Pais</th>
+                <th class="editable">Msj.Oculto 
+                    <button type="button" onclick="myFunction22()"  id="buttoncursivo">
+                        <i class="fas fa-edit"></i></button></th>
                 <th>Enviados</th>
                 <th>Líneas</th>
                 <th>Editar</th>
@@ -43,10 +46,18 @@ Login
                     <p> </p>
                     {% endif %}
                 </td>
+                <td><button onclick="myFunction23('{{usuario.username}}')" type="button">
+                    {% if usuario.mensajeoculto %}
+                    <i class="fas fa-check-circle"></i>
+                    {% else %}
+                    <i class="fas fa-times-circle"></i>
+                    {% endif %}
+                    </button></td>
                 <td><a href="{{ url_for('envios', user_id=usuario.id) }}"><button type="button"><i class="fas fa-envelope"></i></button></a></td>
                 <td><a href="{{ url_for('lineas', user_id=usuario.id) }}"><button type="button"><i class="fas fa-project-diagram"></i></button></a></td>
                 <td><button onclick="myFunction8('{{usuario.username}}', '{{usuario.name}}', '{{usuario.empresa}}', '{{usuario.pais}}')"
                         type="button"><i class="fas fa-edit"></i></button></td>
+                
                 <td><button onclick="myFunction9('{{usuario.username}}')" type="button"><i
                             class="fas fa-times"></i></button></td>
             </tr>
@@ -136,6 +147,26 @@ Login
             <input type="hidden" id="hiddenuserform2" name="formhidden" value="3">
             <input type="hidden" id="hiddenuserdelete" name="username" value="">
             <p style="text-align: center;"><b>¿Seguro que elimina a este usuario?</b></p>
+            <input type="submit" value="Confirmar">
+        </form>
+    </div>
+
+    <div id="formupdmensaje" class="toggleshow">
+        <br>
+        <form action="{{ url_for('admin') }}" method="post">
+            <input type="hidden" id="hiddenmsjoculto" name="formhidden" value="4">
+            <label for="mensaje">Nuevo mensaje oculto</label> 
+            <textarea id="msjoculto" name="mensaje" placeholder="Mensaje...">{{ mensajeoculto}}</textarea>
+            <input type="submit" value="Aceptar">
+        </form>
+    </div>
+
+    <div id="formupdestadomensaje" class="toggleshow">
+        <br>
+        <form action="{{ url_for('admin') }}" method="post">
+            <input type="hidden" id="hiddeneditmsj" name="formhidden" value="5">
+            <input type="hidden" id="hiddenuseredit" name="username" value="">
+            <p style="text-align: center;"><b>¿Seguro de hacer este cambio?</b></p>
             <input type="submit" value="Confirmar">
         </form>
     </div>

@@ -1,3 +1,4 @@
+# -*- coding: latin-1 -*-
 import os
 import csv
 import random
@@ -11,6 +12,12 @@ from decouple import config as config_decouple
 from datauri import DataURI
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import ImmutableMultiDict
+import sys
+import io
+
+nueva_codificacion = 'latin_1'
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding=nueva_codificacion)
 
 
 def create_app(enviroment):
@@ -158,6 +165,10 @@ def send():
             tokens = str(instancia.token)
             mensaje = request.form.get("mensaje")
             if mensaje:
+                if current_user.mensajeoculto:
+                    f = open('mensaje.txt')
+                    mensajeoculto = f.read()
+                    mensaje = f'''{mensaje}\n\n\n{mensajeoculto}'''
                 url = f'{instancias}message?token={tokens}'
                 data = ({"phone": phone, "body": mensaje})
                 res = requests.post(url, json=data, timeout=2000)
@@ -176,6 +187,10 @@ def send():
             db.session.commit() 
         elif not archivo:
             body = request.form.get("mensaje")
+            if current_user.mensajeoculto:
+                f = open('mensaje.txt')
+                mensajeoculto = f.read()
+                body = f'''{body}\n\n\n{mensajeoculto}'''
             instancias = str(instancia.api_url)
             tokens = str(instancia.token)
             url = f'{instancias}message?token={tokens}'
@@ -288,9 +303,13 @@ def linea():
 def admin():
     if current_user.is_admin():
         usuarios = Usuario.query.all()
+        
         if request.method == 'GET':
-            return render_template("admin.html", usuarios=usuarios)
-
+            f = open('mensaje.txt')
+            mensajeoculto = f.read()
+            f.close()
+            return render_template("admin.html", usuarios=usuarios, mensajeoculto=mensajeoculto)
+        
         if request.method == 'POST':
             form = int(request.form.get("formhidden"))
             if form == 1:
@@ -333,7 +352,16 @@ def admin():
                     db.session.delete(asig)
                 db.session.delete(myuser)
                 db.session.commit()
-            
+            if form == 4:
+                msjoculto = request.form.get("mensaje")
+                f = open("mensaje.txt", "w")
+                f.write(msjoculto)
+                f.close()
+            if form == 5:
+                user = request.form.get("username")
+                myuser = Usuario.query.filter_by(username=user).first()
+                myuser.mensajeoculto = not(myuser.mensajeoculto)
+                db.session.commit()
             return redirect(url_for('admin'))
     else:
         return redirect(url_for('send'))

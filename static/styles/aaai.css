@@ -498,32 +498,30 @@ margin: 0 auto;
   color: #eee;
 }
 
-#flexlabel {
-  display: inline-block;
-  width: 100%;
-}
 
-#checkcursivo {
-  margin-right: 2px;
-  margin-top: 3px;
-}
 
-#labelcursivo, #buttoncursivo {
-  font-size: x-small;
-  margin-top: 3px;
+#contadortext {
+  float: right;
+  color: #555;
+  font-size: small;
+  margin-top: 4px;
 }
 
 .editable  {
-  float: right;
   display: inline-flex;
   align-items: center;
 }
 
 #buttoncursivo {
   border: none;
-  margin-left: 5px;
+  padding: 0.2rem;
+  margin-left: 0.2rem;
+  background-color: rgb(30,135,125);
+  color: white;
 }
 
 #buttoncursivo:hover {
   cursor: pointer;
+  background-color: white;
+  color: rgb(30,135,125);
 }
