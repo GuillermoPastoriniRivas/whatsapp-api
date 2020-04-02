@@ -308,7 +308,7 @@ def admin():
             # f = open('mensaje.txt')
             # mensajeoculto = f.read()
             # f.close()
-            return render_template("admin.html", usuarios=usuarios, mensajeoculto=mensajeoculto)
+            return render_template("admin.html", usuarios=usuarios)
         
         if request.method == 'POST':
             form = int(request.form.get("formhidden"))
