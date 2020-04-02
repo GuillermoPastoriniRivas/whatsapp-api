@@ -15,9 +15,7 @@ from werkzeug.datastructures import ImmutableMultiDict
 import sys
 import io
 
-nueva_codificacion = 'latin_1'
 
-sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding=nueva_codificacion)
 
 
 def create_app(enviroment):
@@ -30,7 +28,9 @@ def create_app(enviroment):
         db.create_all()
 
     return app
+nueva_codificacion = 'latin_1'
 
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding=nueva_codificacion)
 enviroment = config['development']
 if config_decouple('PRODUCTION', default=False):
     enviroment = config['production']
